@@ -1,0 +1,14 @@
+<?php
+
+return [
+    'shs_dir' => 'C:\\fonts\\source-han-sans-master',
+    'afdko_bin_dir' => 'C:\\fonts\\AFDKO\\Tools\\win',
+    'build_dir' => 'C:\\fonts\\build',
+    'fontforge_bin' => 'C:\\fonts\\fontforge\\run_fontforge.exe',
+
+	// DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
+    'weights' => ['Light', 'Regular', 'Bold'],
+    'data_dir' => realpath(__DIR__ . '/../data'),
+    'workspace_dir' => realpath(__DIR__ . '/../../workspace'),
+    'db' => realpath(__DIR__ . '/../data/database.sqlite3'),
+];

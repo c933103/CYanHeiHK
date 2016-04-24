@@ -1,0 +1,5 @@
+.idea/
+WIP-*
+tools/app/parameters.php
+tools/data/database.sqlite3
+tools/vendor/

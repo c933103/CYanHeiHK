@@ -1,0 +1,4 @@
+Open($1)
+SelectAll()
+ClearHints()
+Generate($1:r + ".pfa")

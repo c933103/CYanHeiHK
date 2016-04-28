@@ -20,14 +20,17 @@ class BuildCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $ffOptions = new ArrayInput(['workset_id' => 1]);
-        if ($input->getOption('weight')) {
-            $ffOptions['--weight'] = $input->getOption('weight');
+        $buildArgs = new ArrayInput([]);
+        $ffArgs = new ArrayInput(['workset_id' => 1]);
+        if ($weight = $input->getOption('weight')) {
+            $ffArgs['--weight'] = $weight;
+            $buildArgs['--weight'] = $weight;
         }
 
-        $this->runSubCommand('ff:generate', $ffOptions, $output);
+        $this->runSubCommand('ff:generate', $ffArgs, $output);
         $this->runSubCommand('font:build-final-cmap', new ArrayInput([]), $output);
-        $this->runSubCommand('font:build-otf', $input, $output);
-        $this->runSubCommand('font:generate-modified-glyph-pdf', $input, $output);
+        $this->runSubCommand('font:build-otf', $buildArgs, $output);
+        $this->runSubCommand('font:generate-modified-glyph-pdf', $buildArgs, $output);
+        $this->runSubCommand('font:export-changes-html', new ArrayInput([]), $output);
     }
 }

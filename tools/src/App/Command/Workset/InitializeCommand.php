@@ -76,7 +76,7 @@ class InitializeCommand extends BaseCommand
 
         $io->text('Reading selection result data');
 
-        foreach ($data as $line) {
+        foreach ($data as $lineNo => $line) {
             list($codepoint, $tag, $action1, $action2) = explode("\t", $line);
 
             $category = strtolower(substr($tag, 0, 1));
@@ -124,7 +124,7 @@ class InitializeCommand extends BaseCommand
                     $export = true;
                     break;
                 default:
-                    throw new \Exception("Unknown tag $tag");
+                    throw new \Exception("Unknown tag $tag at line " . ($lineNo + 1));
             }
 
             $sql = sprintf("INSERT INTO process (codepoint, workset, category, action, new_cid, export) 

@@ -20,10 +20,10 @@
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
             crossorigin="anonymous"></script>
     <script>
-        $(function() {
+        $(function () {
             $('#myTabs a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
+                e.preventDefault();
+                $(this).tab('show');
             })
         })
     </script>
@@ -37,7 +37,7 @@
             background-color: #fafafa;
         }
 
-        td {
+        td, th {
             text-align: center;
             vertical-align: middle !important;
         }
@@ -68,8 +68,10 @@
 </head>
 <body>
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#s-remapped" role="tab" data-toggle="tab">S-Remapped (%s_remapped_count%)</a></li>
+    <li role="presentation" class="active"><a href="#s-remapped" role="tab" data-toggle="tab">S-Remapped
+        (%s_remapped_count%)</a></li>
     <li role="presentation"><a href="#s-modified" role="tab" data-toggle="tab">S-Modified (%s_modified_count%)</a></li>
+    <li role="presentation"><a href="#ss-remapped" role="tab" data-toggle="tab">SS-Remapped (%ss_remapped_count%)</a></li>
     <li role="presentation"><a href="#a-remapped" role="tab" data-toggle="tab">A-Remapped (%a_remapped_count%)</a></li>
     <li role="presentation"><a href="#a-modified" role="tab" data-toggle="tab">A-Modified (%a_modified_count%)</a></li>
     <li role="presentation"><a href="#o-modified" role="tab" data-toggle="tab">O-Modified (%o_modified_count%)</a></li>
@@ -77,33 +79,23 @@
 
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="s-remapped">
-        <table class="table">
-            %s_remapped%
-        </table>
+        %s_remapped%
     </div>
     <div role="tabpanel" class="tab-pane" id="s-modified">
-        <table class="table">
-            %s_modified%
-        </table>
+        %s_modified%
+    </div>
+    <div role="tabpanel" class="tab-pane" id="ss-remapped">
+        %ss_remapped%
     </div>
     <div role="tabpanel" class="tab-pane active" id="a-remapped">
-        <table class="table">
-            %a_remapped%
-        </table>
+        %a_remapped%
     </div>
     <div role="tabpanel" class="tab-pane" id="a-modified">
-        <table class="table">
-            %a_modified%
-        </table>
+        %a_modified%
     </div>
     <div role="tabpanel" class="tab-pane" id="o-modified">
-        <table class="table">
-            %o_modified%
-        </table>
+        %o_modified%
     </div>
-
 </div>
-
-
 </body>
 </html>

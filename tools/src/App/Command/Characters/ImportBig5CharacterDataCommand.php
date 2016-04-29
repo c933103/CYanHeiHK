@@ -3,7 +3,6 @@
 namespace App\Command\Characters;
 
 use App\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -15,16 +14,15 @@ class ImportBig5CharacterDataCommand extends ContainerAwareCommand
     {
         $this
             ->setName('chardata:import-big5-chars')
-            ->setDescription('Imports character that falls under the BIG5 and HKSCS range')
-            ->addArgument('unihan_mapping_db', InputArgument::REQUIRED, 'Path to unihan_mappings.txt');
+            ->setDescription('Imports character that falls under the Big5 and HKSCS range');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Import BIG-5 and HKSCS character data');
+        $io->title('Import Big5 and HKSCS character data');
 
-        $mappingDbPath = $input->getArgument('unihan_mapping_db');
+        $mappingDbPath = $this->getAppDataDir() . '/fixtures/Unihan_OtherMappings.txt';
         if (!file_exists($mappingDbPath)) {
             throw new InvalidArgumentException('Unable to find Unihan mapping database file: ' . $mappingDbPath);
         }
@@ -52,7 +50,6 @@ class ImportBig5CharacterDataCommand extends ContainerAwareCommand
             }
 
             $id = hexdec(substr($unicode, 2));
-//            $io->comment($line);
             ++$count;
 
             if (!isset($chars[$id])) {

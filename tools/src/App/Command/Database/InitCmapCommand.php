@@ -24,9 +24,9 @@ class InitCmapCommand extends ContainerAwareCommand
         }
     }
 
-    private function getCmapFilename($locale)
+    private function getCmapFilename($region)
     {
-        return 'UniSourceHanSans' . strtoupper($locale) . '-UTF32-H';
+        return 'UniSourceHanSans' . strtoupper($region) . '-UTF32-H';
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -36,11 +36,11 @@ class InitCmapCommand extends ContainerAwareCommand
         $io->title('Import Source Han Sans\'s CMap data into the database');
 
         $io->section('Checking Source Han Sans\'s directory');
-        $locales = ['CN', 'JP', 'KR', 'TW'];
+        $regions = ['CN', 'JP', 'KR', 'TW'];
         $directory = $this->getParameter('shs_dir');
 
-        foreach ($locales as $locale) {
-            $filename = $this->getCmapFilename($locale);
+        foreach ($regions as $region) {
+            $filename = $this->getCmapFilename($region);
             $this->assertFileExists($directory, $filename);
             $io->text($filename . ' found.');
         }
@@ -50,8 +50,8 @@ class InitCmapCommand extends ContainerAwareCommand
         $database->deleteAll('cmap', null);
         $io->text('CMap table cleared.');
 
-        foreach ($locales as $locale) {
-            $this->importCmapTable($io, $database, $directory, $locale);
+        foreach ($regions as $region) {
+            $this->importCmapTable($io, $database, $directory, $region);
         }
 
         $io->success('Done.');
@@ -59,32 +59,35 @@ class InitCmapCommand extends ContainerAwareCommand
 
     private $importedCodePoints = [];
 
-    private function importCmapTable(SymfonyStyle $io, Database $database, $directory, $locale)
+    private function importCmapTable(SymfonyStyle $io, Database $database, $directory, $region)
     {
-        $io->section(sprintf('Importing CMap for %s', $locale));
+        $io->section(sprintf('Importing CMap for %s', $region));
 
         $conn = $database->getConnection();
         $conn->beginTransaction();
-        $data = file($directory . '/' . $this->getCmapFilename($locale));
+        $data = file($directory . '/' . $this->getCmapFilename($region));
         $total = count($data);
         $i = 0;
+
+        $io->progressStart($total);
         while ($i < $total) {
             if (preg_match('#(\d+) (begincidchar|begincidrange)#', $data[$i], $matches)) {
                 for ($j = 0; $j < $matches[1]; ++$j) {
                     ++$i;
+                    $io->progressAdvance();
                     foreach ($this->parseMappingLine($data[$i]) as $codepoint => $cid) {
                         if (isset($this->importedCodePoints[$codepoint])) {
-                            $io->comment(sprintf('^ %04d ==> %d', $codepoint, $cid));
+                            // $io->comment(sprintf('^ %04d ==> %d', $codepoint, $cid));
                             // Update
                             $database->getConnection()->exec(
                                 sprintf('UPDATE cmap SET cid_%s = %d where codepoint = %d',
-                                    strtolower($locale), $cid, $codepoint)
+                                    strtolower($region), $cid, $codepoint)
                             );
                         } else {
                             // Insert
-                            $io->comment(sprintf('+ %04d ==> %d', $codepoint, $cid));
+                            // $io->comment(sprintf('+ %04d ==> %d', $codepoint, $cid));
                             $sql = sprintf('INSERT INTO cmap (codepoint, cid_%s) VALUES (%d, %d)',
-                                strtolower($locale), $codepoint, $cid);
+                                strtolower($region), $codepoint, $cid);
                             $database->getConnection()->exec($sql);
                             $this->importedCodePoints[$codepoint] = true;
                         }
@@ -92,9 +95,10 @@ class InitCmapCommand extends ContainerAwareCommand
                 }
             } else {
                 ++$i;
+                $io->progressAdvance();
             }
         }
-
+        $io->progressFinish();
         $conn->commit();
     }
 

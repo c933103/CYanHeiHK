@@ -14,8 +14,9 @@ class BuildCommand extends ContainerAwareCommand
     {
         $this
             ->setName('font:build')
-            ->setDescription('Shortcut to run font:build-final-cmap, font:build-otf, and font:generate-modified-glyph-pdf')
-            ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
+            ->setDescription('Shortcut to run ff:generate, font:build-final-cmap, font:build-otf, and font:generate-modified-glyph-pdf in order')
+            ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null)
+            ->addOption('skip-ff-generate', 's', InputOption::VALUE_NONE, 'Do not run ff:generate');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -26,11 +27,14 @@ class BuildCommand extends ContainerAwareCommand
             $ffArgs['--weight'] = $weight;
             $buildArgs['--weight'] = $weight;
         }
-
-        $this->runSubCommand('ff:generate', $ffArgs, $output);
+        
+        if (!$input->getOption('skip-ff-generate')) {
+            $this->runSubCommand('ff:generate', $ffArgs, $output);
+        }
+        
         $this->runSubCommand('font:build-final-cmap', new ArrayInput([]), $output);
         $this->runSubCommand('font:build-otf', $buildArgs, $output);
         $this->runSubCommand('font:generate-modified-glyph-pdf', $buildArgs, $output);
-        $this->runSubCommand('font:export-changes-html', new ArrayInput([]), $output);
+        $this->runSubCommand('font:generate-changed-glyph-html', new ArrayInput([]), $output);
     }
 }

@@ -20,8 +20,7 @@ class InitializeCommand extends BaseCommand
         $this
             ->setName('workset:init')
             ->setDescription('Initializes a workset by importing the selection result to the database')
-            ->addArgument('workset_id', InputArgument::REQUIRED, 'Workset ID')
-            ->addArgument('selection_file', InputArgument::OPTIONAL, 'Selection result file', null);
+            ->addArgument('selection_file', InputArgument::REQUIRED, 'Selection result file', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -29,20 +28,10 @@ class InitializeCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Initialize workset');
 
-        $worksetId = $input->getArgument('workset_id');
         $resultFile = $input->getArgument('selection_file');
 
-        $worksetSelectionDir = $this->getParameter('data_dir') . DIRECTORY_SEPARATOR . 'ws_select_result';
-        $defaultResultFile = $worksetSelectionDir . DIRECTORY_SEPARATOR . $worksetId . '.txt';
-
-        $io->text('Workset ID: ' . $worksetId);
-
-        if (!$resultFile) {
-            $resultFile = $defaultResultFile;
-            $io->text('Result file (DEFAULT): ' . $resultFile);
-        } else {
-            $io->text('Result file: ' . $resultFile);
-        }
+        $worksetSelectionDir = $this->getParameter('data_dir') . DIRECTORY_SEPARATOR . 'fixtures';
+        $defaultResultFile = $worksetSelectionDir . DIRECTORY_SEPARATOR . 'worksets.txt';
 
         if (!file_exists($resultFile)) {
             throw new InvalidArgumentException('Unable to locate the selection result file: ' . $resultFile);
@@ -70,14 +59,14 @@ class InitializeCommand extends BaseCommand
         $io->text('Removing old workset result');
 
         $database = $this->getCharacterDatabase();
-        $database->deleteAll('process', 'workset = ' . $worksetId);
+        $database->deleteAll('process', null);
 
         $sqls = [];
 
         $io->text('Reading selection result data');
 
         foreach ($data as $lineNo => $line) {
-            list($codepoint, $tag, $action1, $action2) = explode("\t", $line);
+            list($codepoint, $worksetId, $tag, $action1, $action2) = explode("\t", $line);
 
             $category = strtolower(substr($tag, 0, 1));
 
@@ -96,6 +85,7 @@ class InitializeCommand extends BaseCommand
                 case 'C':
                 case 'J':
                 case 'K':
+                case 'T':
                     $newCid = $this->findCid($remapCodepoint, $localeMap[$action1]);
                     if ($action2 == 'F') {
                         // Remap: Yes, Replacement: Yes
@@ -127,9 +117,9 @@ class InitializeCommand extends BaseCommand
                     throw new \Exception("Unknown tag $tag at line " . ($lineNo + 1));
             }
 
-            $sql = sprintf("INSERT INTO process (codepoint, workset, category, action, new_cid, export) 
-                      VALUES (%d, %d, '%s', '%s', %s, %d)",
-                $codepoint, $worksetId, $category, $action, $newCid, (int)$export
+            $sql = sprintf("INSERT INTO process (codepoint, workset, tag, category, action, new_cid, export) 
+                      VALUES (%d, %d, '%s', '%s', '%s', %s, %d)",
+                $codepoint, $worksetId, $tag, $category, $action, $newCid, (int)$export
             );
             $sqls[$codepoint] = $sql;
         }

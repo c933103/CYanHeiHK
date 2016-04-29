@@ -5,23 +5,18 @@ namespace App\Command\Font;
 use App\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ExportChangesCommand extends ContainerAwareCommand
+class GenerateChangedGlyphHtmlCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('font:export-changes-html')
+            ->setName('font:generate-changed-glyph-html')
             ->setDescription('Exports changes of the built font.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $shsDir = $this->getParameter('shs_dir');
-        $worksetDir = $this->getWorksetDir(1);
         $buildDir = $this->getParameter('build_dir');
 
         $exportGlyphs = [];
@@ -30,14 +25,14 @@ class ExportChangesCommand extends ContainerAwareCommand
         foreach ($stmt as $row) {
             $exportGlyphs[$row['codepoint']] = [
                 'workset' => $row['workset'],
-                'category' => $row['category'],
+                'category' => (strtolower($row['tag']) == 'ss') ? 'ss' : $row['category'],
                 'action_type' => ($row['export'] == 1) ? 'modified' : 'remapped',
             ];
         }
 
         $html = [];
         $counter = [];
-        foreach (['s', 'a', 'o'] as $category) {
+        foreach (['s', 'ss', 'a', 'o'] as $category) {
             foreach (['remapped', 'modified'] as $action) {
                 $html[$category . '_' . $action] = '';
                 $counter[$category . '_' . $action] = 0;
@@ -50,22 +45,29 @@ class ExportChangesCommand extends ContainerAwareCommand
             ++$counter[$key];
             $html[$key] .= sprintf(
                 '<tr>
-<td class="idx">%d</td><td class="orig">%s</td><td class="new light">%s</td><td class="new regular">%s</td><td class="new bold">%s</td>
+<td class="idx">%d</td>
+<td class="u">%s</td>
+<td class="orig">%s</td>
+<td class="new light">%s</td>
+<td class="new regular">%s</td>
+<td class="new bold">%s</td>
 </tr>
 ',
-                $counter[$key], $char, $char, $char, $char
+                $counter[$key], strtoupper(dechex($codepoint)), $char, $char, $char, $char
             );
         }
 
-        $tpl = file_get_contents($this->getAppDataDir() . '/html/template.html');
+        $doc = file_get_contents($this->getAppDataDir() . '/html/document.html');
+        $tableTpl = file_get_contents($this->getAppDataDir() . '/html/table.html');
         foreach ($html as $categoryKey => $content) {
-            $tpl = str_replace(
+            $content = str_replace('%rows%', $content, $tableTpl);
+            $doc = str_replace(
                 ['%' . $categoryKey . '%', '%' . $categoryKey . '_count%'],
                 [$content, $counter[$categoryKey]],
-                $tpl
+                $doc
             );
         }
 
-        file_put_contents($buildDir . '/changes.html', $tpl);
+        file_put_contents($buildDir . '/changes.html', $doc);
     }
 }

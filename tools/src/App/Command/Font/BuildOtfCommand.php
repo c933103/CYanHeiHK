@@ -23,9 +23,10 @@ class BuildOtfCommand extends ContainerAwareCommand
         $io = new SymfonyStyle($input, $output);
 
         $shsDir = $this->getParameter('shs_dir');
-        $worksetDir = $this->getWorksetDir(1);
         $buildDir = $this->getParameter('build_dir');
 
+        $ids = $this->getImportedWorksetIds();
+        rsort($ids);
         $cmapFilePath = $buildDir . DIRECTORY_SEPARATOR . 'cmap';
         if (!file_exists($cmapFilePath)) {
             throw new \Exception('Unable to find CMap file: ' . $cmapFilePath);
@@ -33,13 +34,13 @@ class BuildOtfCommand extends ContainerAwareCommand
 
         foreach ($this->getActionableWeights($input->getOption('weight')) as $weight) {
             $io->section('Building font for ' . $weight . ' weight');
-            $this->buildFont($io, $shsDir, $worksetDir, $buildDir, $weight);
+            $this->buildFont($io, $shsDir, $ids, $buildDir, $weight);
         }
     }
 
     private function buildFont(SymfonyStyle $io,
                                $shsDirRoot,
-                               $worksetDirRoot,
+                               $worksetIds,
                                $buildDirRoot,
                                $weight)
     {
@@ -47,8 +48,27 @@ class BuildOtfCommand extends ContainerAwareCommand
 
         $wNewFontInfoDir = $fontInfoDir . '/' . $weight;
         $wBuildDir = $buildDirRoot . '/' . $weight;
-        $wWorksetDir = $worksetDirRoot . '/' . $weight;
         $wShsFontDir = $shsDirRoot . '/' . $weight . '/OTC';
+
+        $mergeFileArgs = [];
+
+        foreach ($worksetIds as $worksetId) {
+            $wWorksetDir = $this->getWorksetDir($worksetId) . '/' . $weight;
+
+            $categories = ['s', 'a', 'o'];
+            if ($worksetId == 1) {
+                $categories[] = 'punc';
+            }
+
+            foreach (['s', 'a', 'o'] as $category) {
+                $mapFile = $wWorksetDir . '/' . $category . '.map';
+                $pfaFile = $wWorksetDir . '/' . $category . '.pfa';
+
+                if (file_exists($mapFile) && file_exists($pfaFile)) {
+                    $mergeFileArgs[] = $mapFile . ' ' . $pfaFile;
+                }
+            }
+        }
 
         @mkdir($wBuildDir, 0755, true);
 
@@ -59,11 +79,7 @@ class BuildOtfCommand extends ContainerAwareCommand
             $this->getAfdkoCommand('mergeFonts'),
             $wNewFontInfoDir . '/cidfontinfo.OTC.TC',
             $wBuildDir . '/merged.ps ',
-            //
-            $wWorksetDir . '/punc.map ' . $wWorksetDir . '/punc.pfa ' .
-            $wWorksetDir . '/s.map ' . $wWorksetDir . '/s.pfa ' .
-            $wWorksetDir . '/a.map ' . $wWorksetDir . '/a.pfa ' .
-            $wWorksetDir . '/o.map ' . $wWorksetDir . '/o.pfa '
+            implode(' ', $mergeFileArgs)
         ));
 
         $io->text('Replacing original font data with the generated new glyphs');
@@ -92,5 +108,4 @@ class BuildOtfCommand extends ContainerAwareCommand
             $otfPath
         ));
     }
-
 }

@@ -60,6 +60,18 @@ abstract class ContainerAwareCommand extends BaseCommand
         return $this->container['db'];
     }
 
+    protected function getImportedWorksetIds()
+    {
+        $conn = $this->getCharacterDatabase()->getConnection();
+        $stmt = $conn->query('SELECT DISTINCT workset FROM process ORDER BY workset');
+        $result = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $result[] = (int)$row[0];
+        }
+
+        return $result;
+    }
+
     protected function runExternalCommand(SymfonyStyle $io, $cmd)
     {
         if ($io->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {

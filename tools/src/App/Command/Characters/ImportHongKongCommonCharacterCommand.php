@@ -20,7 +20,7 @@ class ImportHongKongCommonCharacterCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Import Common Hong Kong characters');
-        $path = $this->getAppDataDir() . DIRECTORY_SEPARATOR . 'hk_common_chars.txt';
+        $path = $this->getAppDataDir() . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hk_common_chars.txt';
         $io->comment('File path: ' . $path);
 
         $data = file($path);

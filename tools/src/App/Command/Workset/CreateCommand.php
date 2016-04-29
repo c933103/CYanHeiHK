@@ -2,6 +2,7 @@
 
 namespace App\Command\Workset;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,7 +27,7 @@ For every weight and category, this command creates the following files in the w
 [category] can be either "s" (standardization), "a" (aesthetic replacement) or "o" (optimization).  
 EOT
             )
-            ->addArgument('workset_id', InputArgument::REQUIRED, 'Workset ID')
+            ->addArgument('workset_id', InputArgument::OPTIONAL, 'Limit the workset ID to act upon (default to all)')
             ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
     }
 
@@ -42,11 +43,61 @@ EOT
         $io->title('Create workset files');
 
         $afdkoBinDir = $this->getParameter('afdko_bin_dir');
-
-        $worksetId = $input->getArgument('workset_id');
-        $worksetDir = $this->getWorksetDir($worksetId);
-
         $weights = $this->getActionableWeights($input->getOption('weight'));
+
+        $ids = $this->getImportedWorksetIds();
+        $customWorksetId = $input->getArgument('workset_id');
+        if ($customWorksetId) {
+            if (array_search($customWorksetId, $ids) !== false) {
+                $ids = [$customWorksetId];
+            } else {
+                throw new InvalidArgumentException('Invalid workset ID.');
+            }
+        } else {
+        }
+
+        if (!$ids) {
+            $io->error('No workset to create.');
+            die;
+        }
+
+        foreach ($ids as $id) {
+            $io->block(':::::::::: Workset #' . $id . ' ::::::::::');
+            $this->createWorksetFiles($io, $afdkoBinDir, $id, $weights);
+        }
+
+        $io->success('Operation complete');
+    }
+
+    private function createPunctuationFiles(SymfonyStyle $io, $afdkoBinDir, $shsPsFile, $worksetDir, $weight)
+    {
+        $cids = [58992, 59017, 59018, 59022, 63030, 63031, 63033];
+        $pfaFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . 'punc.pfa';
+        $mappingFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . 'punc.map';
+
+        $io->text(' - Producing PFA file');
+        $cmd = sprintf('%s/tx -t1 -decid -g %s %s %s',
+            $afdkoBinDir,
+            implode(',', $cids),
+            $shsPsFile,
+            $pfaFile);
+
+        $this->runExternalCommand($io, $cmd);
+
+        // MAP file
+        $io->text(' - Mergefont property file (' . $mappingFile . ')');
+
+        $s = "mergeFonts SourceHanSansTC-$weight-Dingbats 1\n0	.notdef\n";
+        foreach ($cids as $cid) {
+            $s .= sprintf("%s\tcid%s\n", $cid, $cid);
+        }
+
+        file_put_contents($mappingFile, $s);
+    }
+
+    private function createWorksetFiles(SymfonyStyle $io, $afdkoBinDir, $worksetId, $weights)
+    {
+        $worksetDir = $this->getWorksetDir($worksetId);
 
         $io->text('AFDKO tools directory: ' . $afdkoBinDir);
         $io->text('Workset ID: ' . $worksetId);
@@ -59,7 +110,7 @@ EOT
         $io->text('Reading selection result');
 
         $conn = $this->getCharacterDatabase()->getConnection();
-        $stmt = $conn->query(sprintf('SELECT * FROM cmap c, process p WHERE c.codepoint = p.codepoint AND p.export = 1 ORDER BY c.codepoint'));
+        $stmt = $conn->query(sprintf('SELECT * FROM cmap c, process p WHERE p.workset = ' . $worksetId . ' AND  c.codepoint = p.codepoint AND p.export = 1 ORDER BY c.codepoint'));
         foreach ($stmt as $row) {
             $exportGlyphs[$row['category']][$row['new_cid']] = true;
             foreach (['cn', 'jp', 'kr', 'tw'] as $region) {
@@ -74,9 +125,8 @@ EOT
         ];
 
         foreach ($weights as $weight) {
-
             $io->section('Exporting glyphs for ' . $weight . ' weight');
-            @mkdir($worksetDir . '/' . $weight);
+            @mkdir($worksetDir . '/' . $weight, 0755, true);
 
             $shsPsFile = $this->getShsPsFilePath($weight);
 
@@ -85,7 +135,6 @@ EOT
             }
 
             foreach ($exportGlyphs as $category => $cids) {
-
                 $io->text('Exporting ' . $categoryText[$category] . ' glyphs');
 
                 // PDF file
@@ -136,34 +185,5 @@ EOT
                 $this->runExternalCommand($io, $cmd);
             }
         }
-
-        $io->success('Operation complete');
-    }
-
-    private function createPunctuationFiles(SymfonyStyle $io, $afdkoBinDir, $shsPsFile, $worksetDir, $weight)
-    {
-        $cids = [58992, 59017, 59018, 59022, 63030, 63031, 63033];
-        $pfaFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . 'punc.pfa';
-        $mappingFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . 'punc.map';
-
-        $io->text(' - Producing PFA file');
-        $cmd = sprintf('%s/tx -t1 -decid -g %s %s %s',
-            $afdkoBinDir,
-            implode(',', $cids),
-            $shsPsFile,
-            $pfaFile);
-
-        $this->runExternalCommand($io, $cmd);
-
-        // MAP file
-        $io->text(' - Mergefont property file (' . $mappingFile . ')');
-
-        $s = "mergeFonts SourceHanSansTC-$weight-Dingbats 1\n0	.notdef\n";
-        foreach ($cids as $cid) {
-            $s .= sprintf("%s\tcid%s\n", $cid, $cid);
-        }
-
-        file_put_contents($mappingFile, $s);
-
     }
 }

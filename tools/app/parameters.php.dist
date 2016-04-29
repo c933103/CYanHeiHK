@@ -1,9 +1,13 @@
 <?php
 
 return [
+    // Path to Source Han Sans repository. Only version 1.004 is supported.
     'shs_dir' => 'C:\\fonts\\source-han-sans-master',
+    // Path to AFDKO binary.
     'afdko_bin_dir' => 'C:\\fonts\\AFDKO\\Tools\\win',
+    // Path to output the built fonts and other files.
     'build_dir' => 'C:\\fonts\\build',
+    // Path to Fontforge executable. Optional.
     'fontforge_bin' => 'C:\\fonts\\fontforge\\run_fontforge.exe',
 
 	// DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.

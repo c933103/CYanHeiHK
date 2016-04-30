@@ -13,7 +13,7 @@ A SHS version targeting Hong Kong is currently planned, which will essentially r
 
 ## Differences to the original product
 
-Here is a summary of differences between CYanHeiHK and its work base, Source Han Sans TW:
+The current release of the font is based on the TW variant of Source Han Sans (version 1.004). Here is a summary of differences between CYanHeiHK and the base version: 
 
 1. Some glyphs are modified to conform to HK standard, and some glyphs are modified to use the more conventional form.
 2. Some glyphs are modified to their traditional forms as they are more suitable for Gothic style. Example of  affected components are 艹, 女, 雨, ⺼, 竹 (on top, like 簡,箸).
@@ -35,6 +35,10 @@ This repository does not only include the final font product, but also the scrip
 
 See (COMMANDS.md)[doc/COMMANDS.md] for details.  
 
+## Download
+
+To download the fonts instead of building one manually, visit the (releases)[https://github.com/tamcy/CYanHeiHK/releases] page. The zip file contains fonts of the three weights, and a *changes.html* file which you can open to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be present for the reference glyph to display correctly. 
+
 ### Disclaimer
 
-The CYanHeiHK font and its tools are free for use. The author shall not be responsible or liable for any loss or damage of any kind caused by using this product.
+The CYanHeiHK font and its tools are free for use. The author shall not be responsible or liable for any loss or damage of any kind caused by using this product. For license information, see LICENSE.txt.

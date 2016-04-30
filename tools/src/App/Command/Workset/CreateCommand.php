@@ -53,7 +53,6 @@ EOT
             } else {
                 throw new InvalidArgumentException('Invalid workset ID.');
             }
-        } else {
         }
 
         if (!$ids) {

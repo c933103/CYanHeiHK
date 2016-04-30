@@ -63,7 +63,7 @@ abstract class ContainerAwareCommand extends BaseCommand
     protected function getImportedWorksetIds()
     {
         $conn = $this->getCharacterDatabase()->getConnection();
-        $stmt = $conn->query('SELECT DISTINCT workset FROM process ORDER BY workset');
+        $stmt = $conn->query('SELECT DISTINCT workset FROM process WHERE workset > 0 ORDER BY workset');
         $result = [];
         foreach ($stmt->fetchAll() as $row) {
             $result[] = (int)$row[0];

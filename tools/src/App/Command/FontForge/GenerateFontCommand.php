@@ -3,6 +3,7 @@
 namespace App\Command\FontForge;
 
 use App\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,14 +17,29 @@ class GenerateFontCommand extends ContainerAwareCommand
         $this
             ->setName('ff:generate')
             ->setDescription('Generate .pfa from .sfd files using FontForge')
-            ->addArgument('workset_id', InputArgument::REQUIRED, 'Workset ID')
+            ->addArgument('workset_id', InputArgument::OPTIONAL, 'Limits the workset ID to generate')
             ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('FontForge: Generate .pfa files in a workset');
+        $io->title('FontForge: Generate .pfa files in workset(s)');
+
+        $ids = $this->getImportedWorksetIds();
+        $customWorksetId = $input->getArgument('workset_id');
+        if ($customWorksetId) {
+            if (array_search($customWorksetId, $ids) !== false) {
+                $ids = [$customWorksetId];
+            } else {
+                throw new InvalidArgumentException('Invalid workset ID.');
+            }
+        }
+
+        if (!$ids) {
+            $io->error('No workset to work on.');
+            die;
+        }
 
         $scriptFile = $this->getAppDataDir() . DIRECTORY_SEPARATOR . 'ffscript' . DIRECTORY_SEPARATOR . 'generate.pe';
         if (!is_file($scriptFile)) {
@@ -35,14 +51,24 @@ class GenerateFontCommand extends ContainerAwareCommand
             throw new \Exception('To use this command, "fontforge_bin" must be specified in the parameter file');
         }
 
-        $worksetId = $input->getArgument('workset_id');
-        $worksetDir = $this->getWorksetDir($worksetId);
-
         $weights = $this->getActionableWeights($input->getOption('weight'));
+
+        foreach ($ids as $id) {
+            $io->block(':::::::::: Workset #' . $id . ' ::::::::::');
+            $this->generatePFA($io, $fontForgeBin, $scriptFile, $id, $weights);
+        }
+
+        $io->success('Operation complete');
+    }
+
+    private function generatePFA(SymfonyStyle $io, $fontForgeBin, $scriptFile, $worksetId, $weights)
+    {
+        $worksetDir = $this->getWorksetDir($worksetId);
 
         $io->text('Workset ID: ' . $worksetId);
         $io->text('Workset directory: ' . $worksetDir);
         $io->text('Weights: ' . implode(', ', $weights));
+
 
         $categories = ['s', 'a', 'o'];
         if ($worksetId == 1) {
@@ -72,7 +98,5 @@ class GenerateFontCommand extends ContainerAwareCommand
                 $io->text(' - DONE: ' . $category . '.sfd');
             }
         }
-
-        $io->success('Operation complete');
     }
 }

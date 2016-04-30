@@ -6,7 +6,7 @@ CYanHeiHK is an OpenType font based on Source Han Sans (SHS) from Adobe and Goog
 
 The following issues are observed in the current Source Han Sans release:
 
-1. In Unicode, the same codepoint can result in a variation of glyph appearance due to (Han Unification)[https://en.wikipedia.org/wiki/Han_unification]. Currently, Source Han Sans supports four different favours in terms of language dependent glyphs, which are Simplified Chinese (PRC), Traditional Chinese (Taiwan), Japanese and Korean. So far, there is no Traditional Chinese version targeting Hong Kong's character standard (which *usually* refers to List of Graphemes of Commonly-used Chinese Characters 常用字字形表 released by the Hong Kong Education Bureau).
+1. In Unicode, the same codepoint can result in a variation of glyph appearance due to [https://en.wikipedia.org/wiki/Han_unification](Han Unification). Currently, Source Han Sans supports four different favours in terms of language dependent glyphs, which are Simplified Chinese (PRC), Traditional Chinese (Taiwan), Japanese and Korean. So far, there is no Traditional Chinese version targeting Hong Kong's character standard (which *usually* refers to List of Graphemes of Commonly-used Chinese Characters 常用字字形表 released by the Hong Kong Education Bureau).
 2. For pratical reason, a non-standard glyph is sometimes more preferred than a standard one. The happens when users are already familiar to a glyph long before the standard was born, but the authority picked an unfamiliar representation as the standard. 
 
 A SHS version targeting Hong Kong is currently planned, which will essentially resolve the first issue. However, the release date of SHS-HK is still yet to be announced, and such a release won't solve all problems. In particular, while it is good to have a release fully compliant to HK's glyph standard, it may not be always preferred by the HK community given the discrepancy between the “standard” and “conventional” appearance of some characters.
@@ -33,12 +33,12 @@ This repository does not only include the final font product, but also the scrip
 
 ## Using the tools
 
-See (COMMANDS.md)[doc/COMMANDS.md] for details.  
+See [doc/COMMANDS.md](COMMANDS.md) for details.  
 
 ## Download
 
-To download the fonts instead of building one manually, visit the (releases)[https://github.com/tamcy/CYanHeiHK/releases] page. The zip file contains fonts of the three weights, and a *changes.html* file which you can open to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be present for the reference glyph to display correctly. 
+To download the fonts instead of building one manually, visit the [https://github.com/tamcy/CYanHeiHK/releases](releases) page. The zip file contains fonts of the three weights, and a *changes.html* file which you can open to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be present for the reference glyph to display correctly. 
 
 ### Disclaimer
 
-The CYanHeiHK font and its tools are free for use. The author shall not be responsible or liable for any loss or damage of any kind caused by using this product. For license information, see LICENSE.txt.
+The CYanHeiHK font and its tools are free for use. The author shall not be responsible or liable for any loss or damage of any kind caused by using this product. For license information, see [LICENSE.txt].

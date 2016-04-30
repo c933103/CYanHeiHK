@@ -60,7 +60,7 @@ class BuildOtfCommand extends ContainerAwareCommand
                 $categories[] = 'punc';
             }
 
-            foreach (['s', 'a', 'o'] as $category) {
+            foreach ($categories as $category) {
                 $mapFile = $wWorksetDir . '/' . $category . '.map';
                 $pfaFile = $wWorksetDir . '/' . $category . '.pfa';
 

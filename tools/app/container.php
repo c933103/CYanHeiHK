@@ -14,6 +14,7 @@ $c->addContainerAwareCommands([
     'App\\Command\\Database\\InitializeCommand',
     'App\\Command\\Database\\InitSchemaCommand',
     'App\\Command\\Database\\InitCmapCommand',
+    'App\\Command\\Database\\QueryCmapCommand',
     'App\\Command\\Characters\\InitializeCommand',
     'App\\Command\\Characters\\ImportBig5CharacterDataCommand',
     'App\\Command\\Characters\\ImportHongKongCommonCharacterCommand',

@@ -10,23 +10,25 @@ CYanHeiHK (昭源甄黑體)
   * [About this repository](#about-this-repository)
   * [Using the command line tools](#using-the-command-line-tools)
   * [Download](#download)
+  * [Important notes](#important-notes)
   * [Disclaimer](#disclaimer)
-    
+
 CYanHeiHK is an OpenType font based on Source Han Sans (SHS) from Adobe and Google (it is called Noto Sans CJK when distributed by Google). A number of glyphs have been modified so that it is more suitable for use in Hong Kong.
 
 ## Background
+
 The following issues are observed in the current Source Han Sans release:
 
-1. In Unicode, a codepoint can be represented by usually slightly different glyphs due to [Han Unification](https://en.wikipedia.org/wiki/Han_unification). Currently, Source Han Sans supports four different favours in terms of language dependent glyphs, which are Simplified Chinese (PRC), Traditional Chinese (Taiwan), Japanese and Korean. So far there is no Traditional Chinese version targeting Hong Kong's character standard (usually refers to the *List of Graphemes of Commonly-used Chinese Characters 常用字字形表* by the Hong Kong Education Bureau).
-2. For practical reason, a non-standard glyph is sometimes more preferred than a standard one. The happens when users are already familiar to a glyph long before the standard was born, but the authority picked a somewhat unfamiliar shape as the standard.
+1. In Unicode, a codepoint can be represented by usually slightly different glyphs in different regions due to [Han Unification](https://en.wikipedia.org/wiki/Han_unification). Currently, Source Han Sans supports four different favours in terms of language dependent glyphs, which are Simplified Chinese (PRC), Traditional Chinese (Taiwan), Japanese and Korean. So far there is no Traditional Chinese version targeting Hong Kong's character standard (usually refers to the *List of Graphemes of Commonly-used Chinese Characters 常用字字形表* by the Hong Kong Education Bureau).
+2. For practical reason, a non-standard glyph is sometimes more preferred. The happens when users are already familiar to a glyph long before the standard was born, but the authority picked a somewhat unfamiliar shape as the standard.
 
-A SHS version targeting Hong Kong is currently planned, which will essentially resolve the first issue. However, the release date of SHS-HK is still yet to be announced, and such a release won't serve all user cases. In particular, while it is good to have a release fully compliant to HK's glyph standard, it may not be always preferred by the HK community given the discrepancy between the “standard” and “conventional” appearance of some characters.
+A SHS version targeting Hong Kong is currently planned, which will essentially resolve the first issue. However, the release date of SHS-HK is still yet to be announced, and such a release won't serve all use cases. In particular, while it is good to have a release adhering Hong Kong's glyph standard, such a release may not be always preferred by the community given the discrepancy between the “standard” and “conventional” appearance of some characters.
 
 ## Differences to the original product
 
 The current release of the font is based on the TW variant of Source Han Sans (version 1.004). 
 
-The following image is an introduction to the font in Chinese, which demonstrates some differences to its base:
+The following image serves as an introduction to the font in Chinese, which demonstrates some differences to its base:
 
 ![Font intro](doc/images/intro.png?raw=true "About this font, in Chinese")
 
@@ -66,6 +68,11 @@ See [COMMANDS.md](doc/COMMANDS.md) for details.
 ## Download
 
 To download the fonts instead of building one manually, visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page. The zip file contains fonts of the three weights, and a *changes.html* file which you can open to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be present for the reference glyph to display correctly. 
+
+## Important notes
+
+* Due to the special handling of the “兌” component, there will be two codepoints sharing the same glyph when 兌 is the only distinguishing feature. For instance, 說 (U+8AAA) and 説 (U+8AAC) will both appear as 言+兑 (U+8AAC). As a result, this font is not suitable for situation when the user needs to distinguish these two components. The same is applied to the characters with the “𥁕” component.  
+* The original language specific Source Han Sans OTFs contain glyphs of the non-default language, so that users can access them using the same font resource through the ‘locl’ GSUB feature in OpenType. This feature still exists in CYanHeiHK, but should not be used because the HK glyphs are developed by selecting the region specific glyphs closest to the desired form and modify them when necessary.
 
 ## Disclaimer
 

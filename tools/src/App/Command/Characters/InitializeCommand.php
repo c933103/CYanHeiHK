@@ -20,5 +20,6 @@ class InitializeCommand extends ContainerAwareCommand
     {
         $this->runSubCommand('chardata:import-big5-chars', new ArrayInput([]), $output);
         $this->runSubCommand('chardata:import-hk-common-chars', new ArrayInput([]), $output);
+        $this->runSubCommand('chardata:import-iicore-data', new ArrayInput([]), $output);
     }
 }

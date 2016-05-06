@@ -52,12 +52,15 @@ class BuildOtfCommand extends ContainerAwareCommand
 
         $mergeFileArgs = [];
 
+        array_unshift($worksetIds, 0);
+
         foreach ($worksetIds as $worksetId) {
             $wWorksetDir = $this->getWorksetDir($worksetId) . '/' . $weight;
 
-            $categories = ['s', 'a', 'o'];
-            if ($worksetId == 1) {
-                $categories[] = 'punc';
+            if ($worksetId == 0) {
+                $categories = ['punc'];
+            } else {
+                $categories = ['s', 'a', 'o'];
             }
 
             foreach ($categories as $category) {
@@ -72,9 +75,9 @@ class BuildOtfCommand extends ContainerAwareCommand
 
         @mkdir($wBuildDir, 0755, true);
 
-        $io->text('Merging modified glyphs into a single ps file');
-
         // 1. Merge new glyphs into single ps
+        $io->section('Merging modified glyphs into a single ps file');
+
         $this->runExternalCommand($io, sprintf('%s -cid %s %s %s',
             $this->getAfdkoCommand('mergeFonts'),
             $wNewFontInfoDir . '/cidfontinfo.OTC.TC',
@@ -82,9 +85,9 @@ class BuildOtfCommand extends ContainerAwareCommand
             implode(' ', $mergeFileArgs)
         ));
 
-        $io->text('Replacing original font data with the generated new glyphs');
-
         // 2. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
+        $io->section('Replacing original font data with the generated new glyphs');
+
         $this->runExternalCommand($io, sprintf('%s %s %s %s',
             $this->getAfdkoCommand('mergeFonts'),
             $wBuildDir . '/all.ps',
@@ -92,8 +95,10 @@ class BuildOtfCommand extends ContainerAwareCommand
             $wShsFontDir . '/cidfont.ps.OTC.TC'
         ));
 
+        // 3. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
+        $io->section('Build final OTF');
+
         $otfPath = $buildDirRoot . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . '.otf';
-        $io->text('Build final OTF');
         $io->comment($otfPath);
 
         // 3. Finally, build OTF.
@@ -108,4 +113,5 @@ class BuildOtfCommand extends ContainerAwareCommand
             $otfPath
         ));
     }
+
 }

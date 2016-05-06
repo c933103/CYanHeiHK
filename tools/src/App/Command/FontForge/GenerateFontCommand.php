@@ -69,11 +69,7 @@ class GenerateFontCommand extends ContainerAwareCommand
         $io->text('Workset directory: ' . $worksetDir);
         $io->text('Weights: ' . implode(', ', $weights));
 
-
         $categories = ['s', 'a', 'o'];
-        if ($worksetId == 1) {
-            $categories[] = 'punc';
-        }
 
         foreach ($weights as $weight) {
             $io->section('Exporting glyphs for ' . $weight . ' weight');

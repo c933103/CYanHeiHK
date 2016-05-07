@@ -20,6 +20,7 @@ $c->addContainerAwareCommands([
     'App\\Command\\Characters\\ImportHongKongCommonCharacterCommand',
     'App\\Command\\Characters\\ExportCandidateCommand',
     'App\\Command\\Characters\\ImportIICOREDataCommand',
+    'App\\Command\\Characters\\ExportGlyphCommand',
     'App\\Command\\Workset\\InitializeCommand',
     'App\\Command\\Workset\\CreateCommand',
     'App\\Command\\Font\\BuildCommand',

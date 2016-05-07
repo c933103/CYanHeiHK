@@ -31,12 +31,6 @@ EOT
             ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
     }
 
-    private function getShsPsFilePath($weight)
-    {
-        return $this->getParameter('shs_dir') . DIRECTORY_SEPARATOR
-        . $weight . DIRECTORY_SEPARATOR . 'OTC' . DIRECTORY_SEPARATOR . 'cidfont.ps.OTC.TC';
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
@@ -127,7 +121,7 @@ EOT
             $io->section('Exporting glyphs for ' . $weight . ' weight');
             @mkdir($worksetDir . '/' . $weight, 0755, true);
 
-            $shsPsFile = $this->getShsPsFilePath($weight);
+            $shsPsFile = $this->getSourceHanSansPsFilePath($weight);
 
             if ($worksetId == 1) {
                 $this->createPunctuationFiles($io, $afdkoBinDir, $shsPsFile, $worksetDir, $weight);

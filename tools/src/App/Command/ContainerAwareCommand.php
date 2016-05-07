@@ -112,4 +112,12 @@ abstract class ContainerAwareCommand extends BaseCommand
 
         return $suppliedWeights;
     }
+
+    protected function getSourceHanSansPsFilePath($weight)
+    {
+        return $this->getParameter('shs_dir')
+        . DIRECTORY_SEPARATOR . $weight
+        . DIRECTORY_SEPARATOR . 'OTC'
+        . DIRECTORY_SEPARATOR . 'cidfont.ps.OTC.TC';
+    }
 }

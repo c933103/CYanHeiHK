@@ -44,14 +44,17 @@ And here is a summary:
 
 ## Scope of review process
 
-To achieve the goal of this project i.e. making it more suitable for Hong Kong, characters in the font have to be reviewed and adjustments (either by remapping or modification) have to be made where necessary. As this is a personal project in spare time, it would be impractical for me to go through all characters (>40,000 glyphs) in the original font to hunt and fix every shape. The scope of Source Han Sans TW, which covers the Big5 and HKSCS character set, is also too large for me, as it still sums up to more than 18,000 characters. As a result, the following decision was made to restrict the number of glyphs to be reviewed to a reasonable extent:
- 
-1. All characters in Big5 and HKSCS are listed as candidates to be reviewed. They are extracted using the `Unihan_OtherMappings.txt` file in the [Unihan database](http://www.unicode.org/Public/UCD/latest/ucd/). Characters out of this range are normally ignored.
-2. About 4,800 characters listed in *List of Graphemes of Commonly-used Chinese Characters* (常用字字形表) are actively reviewed and labelled for action. They are taken from EDB's [*Lexical Lists for Chinese Learning in Hong Kong* (香港小學學習字詞表)  website](http://www.edbchinese.hk/lexlist_ch/index.htm). The list contains most of the frequently used characters in Hong Kong.
-3. Other Big5 characters will not be actively reviewed. I may handle it when I encounter such character and want to fix it.
-4. Characters adopted by HKSCS do not imply that they are frequently accessed in Hong Kong. To save time, all HKSCS characters will be reviewed but only those frequently used (which is up to me to decide) will be labelled for further action.
+The language specific version of Source Han Sans Traditional Chinese covers >44,600 ideographs. Among them, characters covered by Big5 or HKSCS (>17,600 characters) are adjusted to comply with Taiwan's MoE standard. 
 
-The font still includes all characters supported by Source Han Sans, just that they are not guaranteed to meet the “suitable for Hong Kong” goal as defined in this product if the codepoint is beyond scope of review. For instance, the 骨 component in 縎 (Big5: EAD3) is left unmodified. The situation should improve after Source Han Sans HK is released in the future, which CYanHeiHK will certainly use as the new base version to work upon.
+To achieve the goal of this project i.e. making it more suitable for Hong Kong, characters in the font have to be reviewed and adjustments (either by remapping or modification) have to be made where necessary. As this is a personal project in spare time, it would be impractical for me to go through all characters in the original font to hunt and fix every shape. Even the number of characters in the Big5 + HKSCS scope is considered too large. Hence the following heuristic:
+
+1. Characters covered in Big5 and HKSCS encodings are treated as the maximum supported set, which means that characters beyond this range will be ignored by default. The list is extracted using the `Unihan_OtherMappings.txt` file in the [Unihan database](http://www.unicode.org/Public/UCD/latest/ucd/). From the file, there are 13,063 Big5 characters and 4,579 HKSCS characters, which sums up to 17,642 characters.   
+2. 4,805 characters listed in *常用字字形表 (List of Graphemes of Commonly-used Chinese Characters)* are actively reviewed and labelled for action. They are extracted from EDB's [*Lexical Lists for Chinese Learning in Hong Kong* (香港小學學習字詞表)  website](http://www.edbchinese.hk/lexlist_ch/index.htm). The list contains most of the frequently used characters in Hong Kong. As expected, all characters are included by either Big5 or HKSCS.
+3. **New in 1.002:** 5,224 characters listed in the IICORE with Hong Kong source identifier (H1A - H1F) are also reviewed and labelled for action. The source file can be found [here](http://www.unicode.org/L2/L2010/10375-02n4153-files/IICORE.txt). There are 456 characters not covered by the source in #2 (note that *常用字字形表* cannot be seen as a subset of IICORE as some characters in 常用字字形表 are not covered by IICORE).
+
+This should cover most characters needed for daily use in Hong Kong. Other Big5 and HKSCS characters will not be *actively* reviewed. Despite this statement, I actually went through the HKSCS characters roughly and tagged the characters that are deemed useful, or when a fix is simple.
+
+The font still includes all characters covered by the original Source Han Sans TC, just that the unreviewed characters are not guaranteed to meet the “suitable for Hong Kong” goal as defined in this product. For instance, the font includes the character 縎 (Big5: EAD3), but its 骨 component does not adhere to Hong Kong's glyph standard. It is left unmodified due to its rare use. The situation should improve after Source Han Sans HK is released in the future, which CYanHeiHK will certainly use as the new base version to work upon.
 
 ## Supported weights
 

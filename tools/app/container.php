@@ -29,6 +29,7 @@ $c->addContainerAwareCommands([
     'App\\Command\\Font\\GenerateModifiedGlyphPDFCommand',
     'App\\Command\\Font\\GenerateChangedGlyphHtmlCommand',
     'App\\Command\\FontForge\\GenerateFontCommand',
+    'App\\Command\\Release\\PackageCommand',
 ]);
 
 $c['application'] = function ($c) {

@@ -9,6 +9,8 @@ return [
     'build_dir' => 'C:\\fonts\\build',
     // Path to Fontforge executable. Optional.
     'fontforge_bin' => 'C:\\fonts\\fontforge\\run_fontforge.exe',
+    // Path to 7-zip, only needed for release:package command
+    '7zip_bin' => 'C:\\Program Files\\7-Zip\\7z.exe',
 
 	// DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
     'weights' => ['Light', 'Regular', 'Bold'],

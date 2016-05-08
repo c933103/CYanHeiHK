@@ -106,7 +106,7 @@ class BuildOtfCommand extends ContainerAwareCommand
         // 4. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
         $io->section('Build final OTF');
 
-        $otfPath = $buildDirRoot . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . '.otf';
+        $otfPath = $buildDirRoot . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . ($fixFontBBox ? '-WithBBoxFix' : '') . '.otf';
         $io->comment($otfPath);
 
         // 3. Finally, build OTF.

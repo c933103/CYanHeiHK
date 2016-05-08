@@ -13,7 +13,7 @@ class ImportIICOREDataCommand extends ContainerAwareCommand
     {
         $this
             ->setName('chardata:import-iicore-data')
-            ->setDescription('Imports IICORE data (only categories of HK)');
+            ->setDescription('Imports IICORE data with Hong Kong source');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -31,22 +31,25 @@ class ImportIICOREDataCommand extends ContainerAwareCommand
         $stmt = $conn->prepare('UPDATE chardata SET iicore_category = ? WHERE codepoint = ?');
         $conn->beginTransaction();
         foreach ($data as $lineNo => $line) {
-
             if ($lineNo < 11) {
                 continue;
             }
 
-            $codepoint = hexdec(substr($line, 0, 5));
+            $rawCodepoint = substr($line, 0, 5);
+            $codepoint = hexdec($rawCodepoint);
             $hkCategory = trim(substr($line, 14, 3));
             if (!$hkCategory) {
                 continue;
             }
-            $total++;
+
+            ++$total;
             $stmt->execute([$hkCategory, $codepoint]);
+            if ($stmt->rowCount() < 1) {
+                $io->error('WARNING: ' . $rawCodepoint . ' not found in the database');
+            }
 
             $io->progressAdvance();
         }
-        
         $conn->commit();
         $io->progressFinish();
 

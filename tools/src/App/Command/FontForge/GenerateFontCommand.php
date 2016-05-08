@@ -85,12 +85,20 @@ class GenerateFontCommand extends ContainerAwareCommand
 
             foreach ($categories as $category) {
                 $file = $dir . DIRECTORY_SEPARATOR . $category . '.sfd';
+                $outputFile = $dir . DIRECTORY_SEPARATOR . $category . '.pfa';
                 if (!file_exists($file)) {
                     $io->text(' - SKIPPED: ' . $category . '.sfd');
                     continue;
                 }
 
                 $this->runExternalCommand($io, '"' . $fontForgeBin . '" -script ' . $scriptFile . ' ' . $file);
+
+                if (file_exists($outputFile)) {
+                    $content = file_get_contents($outputFile);
+                    $content = preg_replace(["{%%CreationDate: .+\n}", "{%%Creator: .+\n}"], '', $content);
+                    file_put_contents($outputFile, $content);
+                }
+
                 $io->text(' - DONE: ' . $category . '.sfd');
             }
         }

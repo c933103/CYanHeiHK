@@ -17,8 +17,8 @@ class ExportGlyphCommand extends ContainerAwareCommand
         $this
             ->setName('chardata:export-glyphs')
             ->setDescription('Exports glyphs for reference')
-            ->addArgument('codepoint', InputArgument::REQUIRED, 'The codepoint to query')
-            ->addArgument('filename', InputArgument::REQUIRED, 'Target path for exported content (weight and extension will be appended automatically)')
+            ->addArgument('codepoint', InputArgument::REQUIRED, 'The codepoint to export')
+            ->addArgument('filename', InputArgument::REQUIRED, 'Filename prefix for exported content (weight and extension will be appended automatically)')
             ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
     }
 
@@ -63,6 +63,7 @@ class ExportGlyphCommand extends ContainerAwareCommand
         $weights = $this->getActionableWeights($input->getOption('weight'));
 
         foreach ($weights as $weight) {
+            $io->section('Export glyphs for ' . $weight . ' weight');
             $shsPsFile = $this->getSourceHanSansPsFilePath($weight);
             $pfaFile = $filename . '_' . $weight . '.pfa';
 

@@ -1,5 +1,5 @@
-v1.002
-======
+v1.002-DEV
+==========
 - Fixed 搵's glyph (U+6435) not mapped to 揾.
 - Fixed 麿 (U+9EBF) incorrectly mapped to CN.
 - Added coverage of IICORE characters with Hong Kong source identifier.  

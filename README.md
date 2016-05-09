@@ -6,10 +6,10 @@ CYanHeiHK (昭源甄黑體)
   * [Background](#background)
   * [Differences to the original product](#differences-to-the-original-product)
   * [Scope of review process](#scope-of-review-process)
-  * [Supported weights](#supported-weights)
+  * [Available weights](#supported-weights)
   * [About this repository](#about-this-repository)
   * [Using the command line tools](#using-the-command-line-tools)
-  * [Download](#download)
+  * **[Download](#download)**
   * [Important notes](#important-notes)
   * [Disclaimer](#disclaimer)
 
@@ -19,7 +19,7 @@ CYanHeiHK is an OpenType font based on Source Han Sans (SHS) from Adobe and Goog
 
 The following issues are observed in the current Source Han Sans release:
 
-1. In Unicode, a codepoint can be represented by different glyphs in different regions due to [Han Unification](https://en.wikipedia.org/wiki/Han_unification). Currently, Source Han Sans supports four favours in terms of language dependent glyphs, and they are Simplified Chinese (PRC), Traditional Chinese (Taiwan), Japanese and Korean. So far there is no Traditional Chinese version targeting Hong Kong's character standard (usually refers to the *List of Graphemes of Commonly-used Chinese Characters 常用字字形表* by the Hong Kong Education Bureau).
+1. In Unicode, a codepoint can be represented by different glyphs in different regions due to [Han Unification](https://en.wikipedia.org/wiki/Han_unification). Currently, Source Han Sans supports four favours in terms of language dependent glyphs, and they are Simplified Chinese (following PRC's glyph standard), Traditional Chinese (following Taiwan's glyph standard), Japanese and Korean. So far there is no Traditional Chinese version targeting Hong Kong's character standard (usually refers to the *List of Graphemes of Commonly-used Chinese Characters 常用字字形表* published by the Hong Kong Education Bureau).
 2. For practical reason, a non-standard glyph is sometimes more preferred. The happens when users are already familiar to a glyph long before the standard was born, but the authority picked a somewhat unfamiliar shape as the standard.
 
 A Source Han Sans version that adheres to Hong Kong's glyph standard is currently planned, which will essentially resolve the first issue. However, the release date of SHS-HK is still yet to be announced, and such a release won't serve all use cases. In particular, while it is good to have a release that follows Hong Kong's glyph standard, it may not be always preferred by the community given the discrepancy between the “standard” and “conventional” appearance of some characters.
@@ -48,15 +48,15 @@ The language specific version of Source Han Sans Traditional Chinese covers >44,
 
 To achieve the goal of this project i.e. making it more suitable for Hong Kong, characters in the font have to be reviewed and adjustments (either by remapping or modification) have to be made where necessary. As this is a personal project in spare time, it would be impractical for me to go through all characters in the original font to hunt and fix every shape. Even the number of characters in the Big5 + HKSCS scope is considered too large. Hence the following heuristic:
 
-1. Characters covered in Big5 and HKSCS encodings are treated as the maximum supported set, which means that characters beyond this range will be ignored by default. The list is extracted using the `Unihan_OtherMappings.txt` file in the [Unihan database](http://www.unicode.org/Public/UCD/latest/ucd/). From the file, there are 13,063 Big5 characters and 4,579 HKSCS characters, which sums up to 17,642 characters.   
-2. 4,805 characters listed in *常用字字形表 (List of Graphemes of Commonly-used Chinese Characters)* are actively reviewed and labelled for action. They are extracted from EDB's [*Lexical Lists for Chinese Learning in Hong Kong* (香港小學學習字詞表)  website](http://www.edbchinese.hk/lexlist_ch/index.htm). The list contains most of the frequently used characters in Hong Kong. As expected, all characters are included by either Big5 or HKSCS.
-3. **New in 1.002:** 5,224 characters listed in the IICORE with Hong Kong source identifier (H1A - H1F) are also reviewed and labelled for action. The source file can be found [here](http://www.unicode.org/L2/L2010/10375-02n4153-files/IICORE.txt). There are 456 characters not covered by the source in #2 (note that *常用字字形表* cannot be seen as a subset of IICORE as some characters in 常用字字形表 are not covered by IICORE).
+1. Characters covered in Big5 and HKSCS encodings are treated as the maximum supported set, which means that characters beyond this range will be ignored by default. The list is extracted using the `Unihan_OtherMappings.txt` file in the [Unihan database](http://www.unicode.org/Public/UCD/latest/ucd/). From the file, there are 17,642 characters in total, among which 13,063 are in Big5 and 4,579 are in HKSCS.
+2. 4,805 characters listed in *常用字字形表 (List of Graphemes of Commonly-used Chinese Characters)* are actively reviewed and fixes will be applied when necessary. They are extracted from EDB's [*Lexical Lists for Chinese Learning in Hong Kong* (香港小學學習字詞表)  website](http://www.edbchinese.hk/lexlist_ch/index.htm). The list contains most of the frequently used characters in Hong Kong. As expected, all characters are included by either Big5 or HKSCS.
+3. **New in 1.002:** 5,224 characters listed in IICORE with Hong Kong source identifier (H1A - H1F) are also reviewed and fixed. The source file can be found [here](http://www.unicode.org/L2/L2010/10375-02n4153-files/IICORE.txt). This results in 456 additional characters to be processed. Also worth noting is that there are characters in *常用字字形表* not covered by IICORE, so it cannot be seen as a subset of IICORE.
 
-This should cover most characters needed for daily use in Hong Kong. Other Big5 and HKSCS characters will not be *actively* reviewed. Despite this statement, I actually went through the HKSCS characters roughly and tagged the characters that are deemed useful, or when a fix is simple.
+This should cover most characters needed for daily use in Hong Kong. Other Big5 and HKSCS characters will not be *actively* reviewed and fixed. Despite this statement, I actually went through all HKSCS characters roughly and tagged those that are deemed useful, or when a fix is simple.
 
 The font still includes all characters covered by the original Source Han Sans TC, just that the unreviewed characters are not guaranteed to meet the “suitable for Hong Kong” goal as defined in this product. For instance, the font includes the character 縎 (Big5: EAD3), but its 骨 component does not adhere to Hong Kong's glyph standard. It is left unmodified due to its rare use. The situation should improve after Source Han Sans HK is released in the future, which CYanHeiHK will certainly use as the new base version to work upon.
 
-## Supported weights
+## Available weights
 
 Light, Regular and Bold version of the font are provided.
 
@@ -68,9 +68,19 @@ This repository does not only include the font files, but also the script and da
 
 See [COMMANDS.md](doc/COMMANDS.md) for details.  
 
+### About the "adjusted Font BBox" version
+
+Starting from 1.002, you can choose to download the “normal version” and the new “adjusted Font BBox version” (experimental). The fonts are identical except the Font BBox parameter in the font. 
+
+“Font BBox” is a bounding box that can accommodate the largest possible glyph in a font. It is exceptionally large in Source Han Sans because of some very wide or tall glyphs (Specifically, CID \1346, \1347, \63028, \63029 are wider than usual; \1438, \1439, \65152, \65153 are taller than usual). A large Font BBox can cause problem when application uses it for layout purpose (although it shouldn't be). For instance, when the normal version is used, the selectable region of the text layer will extend to the bottom of the Font BBox, as illustrated in the screenshot below: 
+ 
+This affects layer selection (very easy to mis-select the text layer when clicked on the supposed to be empty region) and alignment. Although  
+
+Be warned that the adjusted Font BBox version is considered a “hack” but not a “fix” to the problem (ultimately the application should be fixed, not the font). It is not thoroughly tested, so something unexpected might happen (thus the experimental tag). You should only use it when you experience layout problems in your application.
+
 ## Download
 
-To download the fonts, visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page. The zip file contains the compiled fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be present for the reference glyph to display correctly. 
+Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to download the fonts. The zip file contains the compiled fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
 
 ## Important notes
 

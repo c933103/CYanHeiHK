@@ -1,55 +1,34 @@
 [CYanHeiHK-ExtraLight]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,ExtraLight
-	l=3,1,0x411,CYanHeiHK ExtraLight
 	f=CYanHeiHK
 	s=ExtraLight
 	l=CYanHeiHK ExtraLight
 
 [CYanHeiHK-Light]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,Light
-	l=3,1,0x411,CYanHeiHK Light
 	f=CYanHeiHK
 	s=Light
 	l=CYanHeiHK Light
 
 [CYanHeiHK-Normal]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,Normal
-	l=3,1,0x411,CYanHeiHK Normal
 	f=CYanHeiHK
 	s=Normal
 	l=CYanHeiHK Normal
 
 [CYanHeiHK-Regular]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,Regular
-	l=3,1,0x411,CYanHeiHK Regular
 	f=CYanHeiHK
 	s=Regular
 	l=CYanHeiHK Regular
 
 [CYanHeiHK-Medium]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,Medium
-	l=3,1,0x411,CYanHeiHK Medium
 	f=CYanHeiHK
 	s=Medium
 	l=CYanHeiHK Medium
 
 [CYanHeiHK-Bold]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,Bold
-	l=3,1,0x411,CYanHeiHK Bold
 	f=CYanHeiHK
 	s=Bold
 	l=CYanHeiHK Bold
 
 [CYanHeiHK-Heavy]
-	f=3,1,0x411,CYanHeiHK
-	s=3,1,0x411,Heavy
-	l=3,1,0x411,CYanHeiHK Heavy
 	f=CYanHeiHK
 	s=Heavy
 	l=CYanHeiHK Heavy

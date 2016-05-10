@@ -103,13 +103,16 @@ class BuildOtfCommand extends ContainerAwareCommand
             $this->fixFontBBox($io, $wShsFontDir, $wNewFontInfoDir, $wBuildDir, $wBuildDir . '/all.ps.tmp', $wBuildDir . '/all.ps');
         }
 
-        // 4. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
+        // 4. Fix CFF data
+        $this->fixCffDefinitionData($io, $wBuildDir . '/all.ps');
+
+        // 5. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
         $io->section('Build final OTF');
 
         $otfPath = $buildDirRoot . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . ($fixFontBBox ? '-WithBBoxFix' : '') . '.otf';
         $io->comment($otfPath);
 
-        // 3. Finally, build OTF.
+        // 6. Finally, build OTF.
         $this->runExternalCommand($io, sprintf('%s -f %s -ff %s -fi %s -mf %s -r -nS -cs 2 -ch %s -ci %s -o %s',
             $this->getAfdkoCommand('makeotf'),
             $wBuildDir . '/all.ps',
@@ -221,5 +224,49 @@ class BuildOtfCommand extends ContainerAwareCommand
         fclose($ofp);
 
         $io->text('Done.');
+    }
+
+    private function fixCffDefinitionData(SymfonyStyle $io, $inputFile)
+    {
+        $outputFile = $inputFile . '.tmp';
+
+        $ifp = fopen($inputFile, 'r');
+        $ofp = fopen($outputFile, 'w');
+        $defContentReplaced = false;
+        while (!feof($ifp)) {
+            $content = fread($ifp, 1024 * 1024);
+
+            if ($defContentReplaced) {
+                fwrite($ofp, $content);
+            } else {
+                $endDefPos = strpos($content, '%%BeginData');
+                if ($endDefPos === false) {
+                    throw new \Exception('Unable to find expected string %%BeginData');
+                }
+
+                $defContent = substr($content, 0, $endDefPos);
+
+                // 1. Replace all occurrences of SourceHanSansTC with CYanHeiHK
+                $defContent = str_replace('SourceHanSansTC', 'CYanHeiHK', $defContent);
+
+                // 2. Removes XUID definition
+                $defContent = preg_replace("{/XUID \\[.+\\] def\n}", '', $defContent);
+
+                // 3. Replaces copyright notice
+                $defContent = preg_replace('{/Notice .+ def}',
+                    '/Notice (Copyright 2014-2016 Adobe Systems Incorporated \\\\050http://www.adobe.com/\\\\051.) def',
+                    $defContent);
+
+                fwrite($ofp, $defContent);
+                fwrite($ofp, substr($content, $endDefPos));
+                $defContentReplaced = true;
+            }
+        }
+
+        fclose($ifp);
+        fclose($ofp);
+
+        unlink($inputFile);
+        rename($outputFile, $inputFile);
     }
 }

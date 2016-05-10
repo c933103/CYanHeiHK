@@ -19,54 +19,38 @@ class GenerateChangedGlyphHtmlCommand extends ContainerAwareCommand
     {
         $buildDir = $this->getParameter('build_dir');
 
-        $exportGlyphs = [];
+        $worksets = [['Label' => 'All', 'Id' => -1]];
+
+        $glyphs = [];
         $conn = $this->getCharacterDatabase()->getConnection();
         $stmt = $conn->query(sprintf('SELECT * FROM cmap c, process p WHERE c.codepoint = p.codepoint ORDER BY p.workset, c.codepoint'));
-        foreach ($stmt as $row) {
-            $exportGlyphs[$row['codepoint']] = [
-                'workset' => $row['workset'],
-                'category' => (strtolower($row['tag']) == 'ss') ? 'ss' : $row['category'],
-                'action_type' => ($row['export'] == 1) ? 'modified' : 'remapped',
+        foreach ($stmt as $idx => $row) {
+            $workset = $row['workset'];
+            if (!isset($worksets[$workset])) {
+                $worksets[$workset] = ['Id' => $workset, 'Label' => $workset];
+            }
+
+            $category = (strtolower($row['tag']) == 'ss') ? 'ss' : $row['category'];
+            $actionType = ($row['export'] == 1) ? 'modified' : 'remapped';
+
+            $codepoint = $row['codepoint'];
+            $char = mb_convert_encoding(pack('N', $codepoint), 'UTF-8', 'UCS-4BE');
+
+            $glyphs[] = [
+                'No' => $idx + 1,
+                'Workset' => $workset,
+                'Category' => strtoupper($category) . '-' . ucfirst($actionType),
+                'U+' => strtoupper(dechex($codepoint)),
+                'TW' => $char,
+                'Light' => $char,
+                'Regular' => $char,
+                'Bold' => $char,
             ];
         }
 
-        $html = [];
-        $counter = [];
-        foreach (['s', 'ss', 'a', 'o'] as $category) {
-            foreach (['remapped', 'modified'] as $action) {
-                $html[$category . '_' . $action] = '';
-                $counter[$category . '_' . $action] = 0;
-            }
-        }
-
-        foreach ($exportGlyphs as $codepoint => $data) {
-            $char = mb_convert_encoding(pack('N', $codepoint), 'UTF-8', 'UCS-4BE');
-            $key = $data['category'] . '_' . $data['action_type'];
-            ++$counter[$key];
-            $html[$key] .= sprintf(
-                '<tr>
-<td class="idx">%d</td>
-<td class="u">%s</td>
-<td class="orig">%s</td>
-<td class="new light">%s</td>
-<td class="new regular">%s</td>
-<td class="new bold">%s</td>
-</tr>
-',
-                $counter[$key], strtoupper(dechex($codepoint)), $char, $char, $char, $char
-            );
-        }
-
-        $doc = file_get_contents($this->getAppDataDir() . '/html/document.html');
-        $tableTpl = file_get_contents($this->getAppDataDir() . '/html/table.html');
-        foreach ($html as $categoryKey => $content) {
-            $content = str_replace('%rows%', $content, $tableTpl);
-            $doc = str_replace(
-                ['%' . $categoryKey . '%', '%' . $categoryKey . '_count%'],
-                [$content, $counter[$categoryKey]],
-                $doc
-            );
-        }
+        $doc = file_get_contents($this->getAppDataDir() . '/html/changes.html');
+        $doc = str_replace('var worksets = [];', 'var worksets = ' . json_encode(array_values($worksets)) . ';', $doc);
+        $doc = str_replace('var data = [];', 'var data = ' . json_encode($glyphs) . ';', $doc);
 
         file_put_contents($buildDir . '/changes.html', $doc);
     }

@@ -1,0 +1,152 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        #jsGrid {
+            height: 100%;
+        }
+
+        .jsgrid-header-row th {
+            text-align: center;
+        }
+
+        .jsgrid-grid-body td {
+            text-align: center;
+        }
+
+        .jsgrid-grid-body td.orig {
+            font-family: "Source Han Sans TC";
+            font-size: 48px;
+            font-weight: 400;
+        }
+
+        .jsgrid-grid-body td.new {
+            font-size: 48px;
+            font-family: "CYanHeiHK";
+        }
+
+        .jsgrid-grid-body td.new.light {
+            font-weight: 300;
+        }
+
+        .jsgrid-grid-body td.new.regular {
+            font-weight: 400;
+        }
+
+        .jsgrid-grid-body td.new.bold {
+            font-weight: 600;
+        }
+
+    </style>
+    <script>
+        if (!String.prototype.startsWith) {
+            String.prototype.startsWith = function (searchString, position) {
+                position = position || 0;
+                return this.substr(position, searchString.length) === searchString;
+            };
+        }
+
+        var data = [];
+        var worksets = [];
+
+        var categories = [
+            {Label: 'All', Id: 'All'},
+            {Label: 'S-Remapped', Id: 'S-Remapped'},
+            {Label: 'S-Modified', Id: 'S-Modified'},
+            {Label: 'SS-Remapped', Id: 'SS-Remapped'},
+            {Label: 'A-Remapped', Id: 'A-Remapped'},
+            {Label: 'A-Modified', Id: 'A-Modified'},
+            {Label: 'O-Modified', Id: 'O-Modified'}
+        ];
+
+        $(function () {
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                height: "100%",
+
+                inserting: false,
+                editing: false,
+                sorting: true,
+                paging: false,
+
+                filtering: true,
+
+                data: data,
+                controller: {
+                    loadData: function (filter) {
+                        var d = $.Deferred();
+                        var filterCategory = filter.Category != 'All',
+                                filterWorkset = filter.Workset != -1,
+                                filterCodepoint = filter['U+'].length > 0,
+                                filterChar = filter['TW'].length > 0;
+
+                        var result = $.grep(data, function (item) {
+                            if (filterCategory && item['Category'] != filter['Category']) {
+                                return false;
+                            }
+
+                            if (filterWorkset && item['Workset'] != filter['Workset']) {
+                                return false;
+                            }
+
+                            if (filterCodepoint && !item['U+'].startsWith(filter['U+'])) {
+                                return false;
+                            }
+
+                            if (filterChar && item['TW'] != filter['TW']) {
+                                return false;
+                            }
+                            return true;
+                        });
+                        d.resolve(result);
+                        return d.promise();
+                    },
+                    insertItem: $.noop,
+                    updateItem: $.noop,
+                    deleteItem: $.noop
+                },
+
+                fields: [
+                    {name: "No", type: "text", width: 50, filtering: false},
+                    {name: "Workset", type: "select", items: worksets, valueField: "Id", textField: "Label"},
+                    {
+                        name: "Category",
+                        type: "select",
+                        items: categories,
+                        valueField: "Id",
+                        textField: "Label",
+                        width: 50
+                    },
+                    {name: "U+", type: "text", width: 50},
+                    {name: "TW", type: "text", width: 150, css: 'orig'},
+                    {name: "Light", type: "text", width: 150, filtering: false, css: 'new light'},
+                    {name: "Regular", type: "text", width: 150, filtering: false, css: 'new regular'},
+                    {name: "Bold", type: "text", width: 150, filtering: false, css: 'new bold'}
+                ]
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="jsGrid"></div>
+</body>
+</html>

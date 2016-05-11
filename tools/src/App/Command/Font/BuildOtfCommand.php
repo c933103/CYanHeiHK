@@ -254,7 +254,7 @@ class BuildOtfCommand extends ContainerAwareCommand
 
                 // 3. Replaces copyright notice
                 $defContent = preg_replace('{/Notice .+ def}',
-                    '/Notice (Copyright 2014-2016 Adobe Systems Incorporated \\\\050http://www.adobe.com/\\\\051.) def',
+                    '/Notice (Copyright 2014-2016 Adobe Systems Incorporated (http://www.adobe.com/).) def',
                     $defContent);
 
                 fwrite($ofp, $defContent);

@@ -74,7 +74,7 @@ Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to downlo
 
 The zip file contains the compiled fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
 
-Starting from 1.002, you can choose to download the “normal version” and the new “adjusted Font BBox version” (experimental). Normally, one should use the “normal version”. The “adjusted Font BBox version” is provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information]((doc/FONTBBOX-ADJUSTED-VERSION.md)).
+Starting from 1.002, you can choose to download the “normal version” and the new “adjusted Font BBox version” (experimental). Normally, one should use the “normal version”. The “adjusted Font BBox version” is provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information](doc/FONTBBOX-ADJUSTED-VERSION.md).
 
 ## Important notes
 

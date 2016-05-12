@@ -33,12 +33,12 @@ class PackageCommand extends ContainerAwareCommand
         $includeProjectFiles = ['CHANGELOG.md', 'README.md', 'LICENSE.txt'];
         $buildDirFileSets = [
             'Normal version' => [
-                'filename' => '%prefix%.7z',
+                'filename' => 'CYanHeiHK_%prefix%.7z',
                 'files' => ['changes.html', 'CYanHeiHK-Bold.otf', 'CYanHeiHK-Light.otf', 'CYanHeiHK-Regular.otf'],
             ],
             'FontBBox adjusted version' => [
-                'filename' => '%prefix%_adjusted_fontbbox.7z',
-                'files' => ['changes.html', 'CYanHeiHK-Bold-WithBBoxFix.otf', 'CYanHeiHK-Light-WithBBoxFix.otf', 'CYanHeiHK-Regular-WithBBoxFix.otf'],
+                'filename' => 'CYanHeiHK_%prefix%_adjusted_fontbbox.7z',
+                'files' => ['changes.html', 'CYanHeiHK-Bold-AdjustedFontBBox.otf', 'CYanHeiHK-Light-AdjustedFontBBox.otf', 'CYanHeiHK-Regular-AdjustedFontBBox.otf'],
             ],
         ];
 

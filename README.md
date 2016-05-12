@@ -68,21 +68,13 @@ This repository does not only include the font files, but also the script and da
 
 See [COMMANDS.md](doc/COMMANDS.md) for details.  
 
-### About the “adjusted Font BBox” version
-
-Starting from 1.002, you can choose to download the “normal version” and the new “adjusted Font BBox version” (experimental). The fonts are identical except the Font BBox parameter in the font. 
-
-“Font BBox” is a bounding box that can accommodate the largest possible glyph in a font. It is exceptionally large in Source Han Sans because of some very wide or tall glyphs (CID \1346, \1347, \63028, \63029 are wider than usual; \1438, \1439, \65152, \65153 are taller than usual). A large Font BBox can cause problem when application uses it for layout purpose. For instance, in Adobe Illustrator, the selectable region of the text layer will extend to the bottom of the Font BBox when the normal version is used: 
- 
-![Illustrator issue with large Font BBox](doc/images/illustrator-fontbbox.png?raw=true "Illustrator issue with large Font BBox")
-  
-This affects layer selection (very easy to mis-select the text layer when clicked on the supposed to be empty region) and alignment. Thus a special build with adjusted Font BBox is provided to work around this issue.
-
-Be warned that the adjusted Font BBox version is considered a “hack” but not a “fix” to the problem (ultimately the application should be fixed, not the font). It is not thoroughly tested, so something unexpected might happen (thus the experimental tag). You should only use it when you experience layout problems in your application.
-
 ## Download
 
-Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to download the fonts. The zip file contains the compiled fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
+Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to download the fonts.
+
+The zip file contains the compiled fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
+
+Starting from 1.002, you can choose to download the “normal version” and the new “adjusted Font BBox version” (experimental). Normally, one should use the “normal version”. The “adjusted Font BBox version” is provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information]((doc/FONTBBOX-ADJUSTED-VERSION.md)).
 
 ## Important notes
 

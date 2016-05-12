@@ -4,7 +4,6 @@ v1.002-DEV
 - Fixed 麿 (U+9EBF) incorrectly mapped to CN.
 - Added coverage of IICORE characters with Hong Kong source identifier.  
 - Additional codepoints mapped for HK.  
-- Added a version of the font with adjusted FontBBox (experimental).  
 
 v1.001
 ======

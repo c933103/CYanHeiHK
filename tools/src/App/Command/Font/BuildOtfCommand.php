@@ -88,6 +88,13 @@ class BuildOtfCommand extends ContainerAwareCommand
             implode(' ', $mergeFileArgs)
         ));
 
+        $io->text('Auto-hinting the merged file');
+
+        $this->runExternalCommand($io, sprintf('%s %s',
+            $this->getAfdkoCommand('autohint'),
+            $wBuildDir . '/merged.ps '
+        ));
+
         // 2. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
         $io->section('Replacing original font data with the generated new glyphs');
 
@@ -104,10 +111,11 @@ class BuildOtfCommand extends ContainerAwareCommand
         }
 
         // 4. Fix CFF data
+        $io->section('Fixing the CFF table');
         $this->fixCffDefinitionData($io, $wBuildDir . '/all.ps');
 
         // 5. Merge original cidfont.ps.OTC.TC with new glyph ps generated in previous step.
-        $io->section('Build final OTF');
+        $io->section('Building final OTF');
 
         $otfPath = $buildDirRoot . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . ($fixFontBBox ? '-WithBBoxFix' : '') . '.otf';
         $io->comment($otfPath);

@@ -41,6 +41,7 @@ And here is a summary:
 4. The 辶 component is redesigned. 
 5. Sizes of some full-width punctuations (，。、：；！？) are adjusted.
 6. A small number of glyphs are modified to comply with HK's standard, even though such a character already exist but in different codepoints. For this part, only glyphs of the following two components are affected: (a) 兌 → 兑, thus 說 → 説, 悅 → 悦; and (b) 𥁕 → 昷, thus 溫 → 温. HK uses the latter glyphs, but many people are more accustomed to enter the former glyphs through IME due to historical reasons.
+7. Lastly, appearances of the half-width, proportional digit “1” and letter “g” are changed. The bottom horizontal line of “1” has been removed, and “g” is changed to single-storey form.    
 
 ## Scope of review process
 

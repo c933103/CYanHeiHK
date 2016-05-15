@@ -1,3 +1,9 @@
+v1.003
+======
+- Glyph of proportional (half-width) digit “1” modified, with bottom horizontal line removed.
+- Glyph of proportional (half-width) letter “g” modified to single-storey form. 
+- Fixed 迓 (U+8FD3) incorrectly mapped to JP glyph. Instead, it should be modified.
+
 v1.002
 ======
 - Fixed 搵's glyph (U+6435) not mapped to 揾.

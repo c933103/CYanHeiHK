@@ -61,7 +61,7 @@ class BuildOtfCommand extends ContainerAwareCommand
             $wWorksetDir = $this->getWorksetDir($worksetId) . '/' . $weight;
 
             if ($worksetId == 0) {
-                $categories = ['punc'];
+                $categories = ['punc', 'digits', 'alpha'];
             } else {
                 $categories = ['s', 'a', 'o'];
             }

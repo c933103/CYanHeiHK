@@ -1,6 +1,8 @@
 CYanHeiHK (昭源甄黑體)
 ====================
 
+[Click here for Chinese version 中文版請按此](README.zh.md)  
+
 ## Table of Contents
 
   * [Background](#background)

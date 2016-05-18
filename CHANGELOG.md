@@ -1,3 +1,7 @@
+v1.004-DEV
+==========
+- Removed some entries from the PALT table to prevent proportional width behavior. Some glyphs (e.g. ，。？！) are expected to be in full width.  
+
 v1.003
 ======
 - Glyph of proportional (half-width) digit “1” modified, with bottom horizontal line removed.

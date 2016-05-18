@@ -7,7 +7,8 @@ This page only shows the steps to set up the command line tools to build CYanHei
 To use the tools, the following files must be present in your working machine: 
 
 * [Source Han Sans](https://github.com/adobe-fonts/source-han-sans) project files. The modified glyphs will be merged to the original file set.
-* [Adobe Font Development Kit for OpenType (AFDKO)](https://github.com/adobe-fonts/source-han-sans). This project uses `tx` and `mergeFonts`.
+* [Adobe Font Development Kit for OpenType (AFDKO)](https://github.com/adobe-fonts/source-han-sans). This project uses `autohint`, `tx` and `mergeFonts`.
+* [FontTools](https://github.com/behdad/fonttools). The tool `pyftsubset` is required for building web font. Also needed is the [Brotli Python extension](https://github.com/google/brotli) to build WOFF2 font. 
 * Optionally, [FontForge](https://fontforge.github.io/en-US/) is required to run FontForge related command.
 * The scripts are written in [PHP](http://php.net/), so it has to be installed first.
 * [Composer](https://getcomposer.org/download/), a package management system for PHP, is required to install the project dependencies.

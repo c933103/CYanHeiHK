@@ -86,8 +86,8 @@ class InitCmapCommand extends ContainerAwareCommand
                         } else {
                             // Insert
                             // $io->comment(sprintf('+ %04d ==> %d', $codepoint, $cid));
-                            $sql = sprintf('INSERT INTO cmap (codepoint, cid_%s) VALUES (%d, %d)',
-                                strtolower($region), $codepoint, $cid);
+                            $sql = sprintf('INSERT INTO cmap (codepoint, hex_cp, cid_%s) VALUES (%d, \'%s\', %d)',
+                                strtolower($region), $codepoint, str_pad(strtoupper(dechex($codepoint)), 8, '0', STR_PAD_LEFT), $cid);
                             $database->getConnection()->exec($sql);
                             $this->importedCodePoints[$codepoint] = true;
                         }

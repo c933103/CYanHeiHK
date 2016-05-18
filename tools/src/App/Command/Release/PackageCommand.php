@@ -40,6 +40,24 @@ class PackageCommand extends ContainerAwareCommand
                 'filename' => 'CYanHeiHK_%prefix%_adjusted_fontbbox.7z',
                 'files' => ['changes.html', 'CYanHeiHK-Bold-AdjustedFontBBox.otf', 'CYanHeiHK-Light-AdjustedFontBBox.otf', 'CYanHeiHK-Regular-AdjustedFontBBox.otf'],
             ],
+            'Webfont' => [
+                'filename' => 'CYanHeiHK_%prefix%_webfont.7z',
+                'files' => [
+                    'webfont_demo.html',
+                    'CYanHeiHK-Bold-hinted.woff',
+                    'CYanHeiHK-Bold-hinted.woff2',
+                    'CYanHeiHK-Bold-unhinted.woff',
+                    'CYanHeiHK-Bold-unhinted.woff2',
+                    'CYanHeiHK-Light-hinted.woff',
+                    'CYanHeiHK-Light-hinted.woff2',
+                    'CYanHeiHK-Light-unhinted.woff',
+                    'CYanHeiHK-Light-unhinted.woff2',
+                    'CYanHeiHK-Regular-hinted.woff',
+                    'CYanHeiHK-Regular-hinted.woff2',
+                    'CYanHeiHK-Regular-unhinted.woff',
+                    'CYanHeiHK-Regular-unhinted.woff2',
+                ],
+            ],
         ];
 
         foreach ($buildDirFileSets as $name => $fileSet) {

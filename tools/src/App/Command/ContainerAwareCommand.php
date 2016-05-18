@@ -78,6 +78,16 @@ abstract class ContainerAwareCommand extends BaseCommand
             $io->comment($cmd);
         }
 
+        if ($io->getVerbosity() != OutputInterface::VERBOSITY_VERY_VERBOSE) {
+            if (strpos($cmd, '>') === false) {
+                if (DIRECTORY_SEPARATOR == '/') {
+                    $cmd .= ' > /dev/null';
+                } else {
+                    $cmd .= ' > nul';
+                }
+            }
+        }
+
         $process = new Process($cmd);
         $process->run(function ($type, $buffer) use ($io) {
             $io->text($buffer);
@@ -120,4 +130,19 @@ abstract class ContainerAwareCommand extends BaseCommand
         . DIRECTORY_SEPARATOR . 'OTC'
         . DIRECTORY_SEPARATOR . 'cidfont.ps.OTC.TC';
     }
+
+    protected function getDirConfigForWeight($weight)
+    {
+        return [
+            'font_info_dir' => $this->getAppDataDir() . '/fontinfo/' . $weight,
+            'build_dir' => $this->getParameter('build_dir') . '/' . $weight,
+        ];
+    }
+    protected function copyFile($sourceDir, $targetDir, $filename, $replaces = [])
+    {
+        $data = file_get_contents($sourceDir . '/' . $filename);
+        $data = str_replace(array_keys($replaces), array_values($replaces), $data);
+        file_put_contents($targetDir . '/' . $filename, $data);
+    }
+
 }

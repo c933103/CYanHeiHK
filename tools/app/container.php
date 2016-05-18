@@ -25,11 +25,13 @@ $c->addContainerAwareCommands([
     'App\\Command\\Workset\\CreateCommand',
     'App\\Command\\Font\\BuildCommand',
     'App\\Command\\Font\\BuildCmapCommand',
+    'App\\Command\\Font\\BuildMergedPsCommand',
     'App\\Command\\Font\\BuildOtfCommand',
     'App\\Command\\Font\\GenerateModifiedGlyphPDFCommand',
     'App\\Command\\Font\\GenerateChangedGlyphHtmlCommand',
     'App\\Command\\FontForge\\GenerateFontCommand',
     'App\\Command\\Release\\PackageCommand',
+    'App\\Command\\Font\\BuildWoffCommand',
 ]);
 
 $c['application'] = function ($c) {

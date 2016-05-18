@@ -71,16 +71,35 @@ See [COMMANDS.md](doc/COMMANDS.md) for details.
 
 ## Download
 
-Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to download the fonts.
+Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to download the fonts. Currently two desktop builds and one web font build are available for download.
 
-The zip file contains the compiled fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
+### Desktop builds
 
-Starting from 1.002, you can choose to download the “normal version” and the new “adjusted Font BBox version” (experimental). Normally, one should use the “normal version”. The “adjusted Font BBox version” is provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information](doc/FONTBBOX-ADJUSTED-VERSION.md).
+The font offers two variants for desktop use. Note that the font names are exactly the same, so you cannot install both.
+  
+* `CYanHeiHK_{version}.7z` is the “normal version” of the OpenType (.OTF) font files. You're probably looking for this.
+* `CYanHeiHK_{version}_adjusted_fontbbox.7z` is the “adjusted Font BBox version”, provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information](doc/FONTBBOX-ADJUSTED-VERSION.md). Only use it when you understand what it does.
+ 
+The zip file contains the installable fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
+
+### Web font build
+
+`CYanHeiHK_{version}_webfont.7z` is a special build of the font dedicated for the web. It contains a subsetted version of CYanHeiHK (8,700 codepoints), with most OpenType features removed to save space.
+
+For Chinese character glyphs,
+   * characters listed in IICORE with Hong Kong, Macau, Taiwan, or Japan source identifier are included. For Japan source, only those overlapping the Big5 or HKSCS code range are included;
+   * characters revised (either remapped or modified) for Hong Kong's needs in this project are always included;
+   * additional characters manually selected to include in the web font. These are mostly HKSCS characters (e.g. 㗅, 喆).  
+
+For non-Chinese character glyphs,
+   * ASCII, punctuation marks, full-width characters, Hiragana and Katakana symbols are included.
+  
+The package is supplied with fonts in WOFF and WOFF2 formats. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight.
 
 ## Important notes
 
 * Due to the special handling of the “兌” component, there will be two codepoints sharing the same glyph for characters which 兌 is the only distinguishing feature. For instance, 說 (U+8AAA) and 説 (U+8AAC) will both appear as 言+兑 (U+8AAC). As a result, this font is not suitable for situation where such discrimination is essential. The same is applied to characters with the “𥁕” component. 
-* The original language specific OTFs contain glyphs of the non-default language, so that users can access them using the same font resource through the ‘locl’ GSUB feature in OpenType. This feature still exists in CYanHeiHK, but should not be used because the HK glyphs are developed by selecting the region specific glyphs closest to the desired form and modify them when necessary.
+* The original language specific OTFs contain glyphs of the non-default language, so that users can access them using the same font resource through the ‘locl’ GSUB feature in OpenType. This feature still exists in CYanHeiHK, but should not be relied on because the HK glyphs are developed by selecting the region specific glyphs closest to the desired form and modify them when necessary. I plan to remove this ‘locl’ feature in the future.   
 
 ## Disclaimer
 

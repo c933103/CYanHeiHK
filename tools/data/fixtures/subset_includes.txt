@@ -1,0 +1,161 @@
+; Specify the extra codepoint and ranges to be included in the web font subset
+
+[include_ranges]
+; Basic Latin
+range[] = "0000..007F"
+; Latin-1 Supplement
+range[] = "0080..00FF"
+; Latin Extended-A
+range[] = "0100..017F"
+; Latin Extended-B
+range[] = "0180..024F"
+; Spacing Modifier Letters
+range[] = "02B0..02FF"
+; Superscripts and Subscripts
+range[] = "2070..209F"
+; Currency Symbols
+range[] = "20A0..20CF"
+; Arrows
+range[] = "2190..21FF"
+; Enclosed Alphanumerics
+range[] = "2460..24FF"
+; Kangxi Radicals
+range[] = "2F00..2FDF"
+; CJK Symbols and Punctuation
+range[] = "3000..303F"
+; Hiragana
+range[] = "3040..309F"
+; Katakana
+range[] = "30A0..30FF"
+; Bopomofo
+range[] = "3100..312F"
+; CJK Strokes
+range[] = "31C0..31EF"
+; Halfwidth and Fullwidth Forms
+range[] = "FF00..FFEF"
+
+[include_codepoints]
+codepoint[]=13765
+codepoint[]=13869
+codepoint[]=14231
+codepoint[]=15835
+codepoint[]=16365
+codepoint[]=16378
+codepoint[]=17389
+codepoint[]=19983
+codepoint[]=20109
+codepoint[]=20407
+codepoint[]=20749
+codepoint[]=21024
+codepoint[]=21030
+codepoint[]=21031
+codepoint[]=21408
+codepoint[]=21424
+codepoint[]=21472
+codepoint[]=21823
+codepoint[]=21894
+codepoint[]=21941
+codepoint[]=22033
+codepoint[]=22089
+codepoint[]=22093
+codepoint[]=22247
+codepoint[]=22642
+codepoint[]=24161
+codepoint[]=24191
+codepoint[]=24305
+codepoint[]=24312
+codepoint[]=24315
+codepoint[]=24316
+codepoint[]=24331
+codepoint[]=24333
+codepoint[]=24334
+codepoint[]=24374
+codepoint[]=24394
+codepoint[]=24641
+codepoint[]=25055
+codepoint[]=25086
+codepoint[]=25155
+codepoint[]=25168
+codepoint[]=25169
+codepoint[]=25178
+codepoint[]=25222
+codepoint[]=25228
+codepoint[]=25245
+codepoint[]=25465
+codepoint[]=25466
+codepoint[]=25519
+codepoint[]=25520
+codepoint[]=25544
+codepoint[]=25593
+codepoint[]=25639
+codepoint[]=25650
+codepoint[]=25652
+codepoint[]=25653
+codepoint[]=25730
+codepoint[]=26052
+codepoint[]=26094
+codepoint[]=26095
+codepoint[]=26107
+codepoint[]=26161
+codepoint[]=26164
+codepoint[]=26166
+codepoint[]=26170
+codepoint[]=26177
+codepoint[]=26578
+codepoint[]=26658
+codepoint[]=27179
+codepoint[]=27311
+codepoint[]=27547
+codepoint[]=27565
+codepoint[]=27696
+codepoint[]=28407
+codepoint[]=28408
+codepoint[]=28514
+codepoint[]=28705
+codepoint[]=28711
+codepoint[]=28933
+codepoint[]=29564
+codepoint[]=29864
+codepoint[]=29977
+codepoint[]=30055
+codepoint[]=30288
+codepoint[]=30290
+codepoint[]=30542
+codepoint[]=31064
+codepoint[]=31869
+codepoint[]=31911
+codepoint[]=31980
+codepoint[]=31984
+codepoint[]=32827
+codepoint[]=34214
+codepoint[]=35090
+codepoint[]=39194
+codepoint[]=39393
+codepoint[]=39722
+codepoint[]=39909
+codepoint[]=39911
+codepoint[]=39976
+codepoint[]=40388
+codepoint[]=40618
+codepoint[]=63751
+codepoint[]=134057
+codepoint[]=134209
+codepoint[]=134356
+codepoint[]=134513
+codepoint[]=134567
+codepoint[]=134732
+codepoint[]=134771
+codepoint[]=134808
+codepoint[]=134961
+codepoint[]=135056
+codepoint[]=137596
+codepoint[]=142497
+codepoint[]=142733
+codepoint[]=142830
+codepoint[]=144372
+codepoint[]=151207
+codepoint[]=151310
+codepoint[]=155209
+codepoint[]=164507
+codepoint[]=194726
+codepoint[]=194765

@@ -3,8 +3,10 @@
 return [
     // Path to Source Han Sans repository. Only version 1.004 is supported.
     'shs_dir' => 'C:\\fonts\\source-han-sans-master',
-    // Path to AFDKO binary.
+    // Path to AFDKO binary files.
     'afdko_bin_dir' => 'C:\\fonts\\AFDKO\\Tools\\win',
+    // Path to pyftsubset executable.
+    'pyftsubset_bin' => 'pyftsubset',
     // Path to output the built fonts and other files.
     'build_dir' => 'C:\\fonts\\build',
     // Path to Fontforge executable. Optional.
@@ -13,6 +15,7 @@ return [
     '7zip_bin' => 'C:\\Program Files\\7-Zip\\7z.exe',
 
 	// DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
+    'version' => '1.003',
     'weights' => ['Light', 'Regular', 'Bold'],
     'data_dir' => realpath(__DIR__ . '/../data'),
     'workspace_dir' => realpath(__DIR__ . '/../../workspace'),

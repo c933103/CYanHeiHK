@@ -77,10 +77,12 @@ class InitializeCommand extends BaseCommand
                 $remapCodepoint = $codepoint;
             }
 
+            $io->comment(sprintf('%s: %s, %s', $codepoint, $category, $action1));
+
             if ($action1 == '*') {
                 continue;
             }
-
+            $action1 = str_replace('*', '', $action1);
             switch ($action1) {
                 case 'C':
                 case 'J':
@@ -114,7 +116,7 @@ class InitializeCommand extends BaseCommand
                     $export = true;
                     break;
                 default:
-                    throw new \Exception("Unknown tag $tag at line " . ($lineNo + 1));
+                    throw new \Exception("Unknown action $action1 at line " . ($lineNo + 1));
             }
 
             $sql = sprintf("INSERT INTO process (codepoint, workset, tag, category, action, new_cid, export) 

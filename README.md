@@ -54,6 +54,7 @@ To achieve the goal of this project i.e. making it more suitable for Hong Kong, 
 1. Characters covered in Big5 and HKSCS encodings are treated as the maximum supported set, which means that characters beyond this range will be ignored by default. The list is extracted using the `Unihan_OtherMappings.txt` file in the [Unihan database](http://www.unicode.org/Public/UCD/latest/ucd/). From the file, there are 17,642 characters in total, among which 13,063 are in Big5 and 4,579 are in HKSCS.
 2. 4,805 characters listed in *常用字字形表 (List of Graphemes of Commonly-used Chinese Characters)* are actively reviewed and fixes will be applied when necessary. They are extracted from EDB's [*Lexical Lists for Chinese Learning in Hong Kong* (香港小學學習字詞表)  website](http://www.edbchinese.hk/lexlist_ch/index.htm). The list contains most of the frequently used characters in Hong Kong. As expected, all characters are included by either Big5 or HKSCS.
 3. **New in 1.002:** 5,224 characters listed in IICORE with Hong Kong source identifier (H1A - H1F) are also reviewed and fixed. The source file can be found [here](http://www.unicode.org/L2/L2010/10375-02n4153-files/IICORE.txt). This results in 456 additional characters to be processed. Also worth noting is that there are characters in *常用字字形表* not covered by IICORE, so it cannot be seen as a subset of IICORE.
+4. **New in 1.004:** IICORE characters with Taiwan, Macau and Japan source identifiers are reviewed. A fix will be applied when remapping is possible. Other characters are evaluated individually, and are modified if considered suitable for HK.
 
 This should cover most characters needed for daily use in Hong Kong. Other Big5 and HKSCS characters will not be *actively* reviewed and fixed. Despite this statement, I actually went through all HKSCS characters roughly and tagged those that are deemed useful, or when a fix is simple.
 
@@ -86,7 +87,7 @@ The zip file contains the installable fonts, the license file, and a *changes.ht
 
 ### Web font build
 
-`CYanHeiHK_{version}_webfont.7z` is a special build of the font dedicated for the web. It contains a subsetted version of CYanHeiHK (8,700 codepoints), with most OpenType features removed to save space.
+`CYanHeiHK_{version}_webfont.7z` is a special build of the font dedicated for the web. It contains a subsetted version of CYanHeiHK (8,786 codepoints), with most OpenType features removed to save space.
 
 For Chinese character glyphs,
    * characters listed in IICORE with Hong Kong, Macau, Taiwan, or Japan source identifier are included. For Japan source, only those overlapping the Big5 or HKSCS code range are included;

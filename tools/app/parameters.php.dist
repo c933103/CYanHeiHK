@@ -15,7 +15,7 @@ return [
     '7zip_bin' => 'C:\\Program Files\\7-Zip\\7z.exe',
 
 	// DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
-    'version' => '1.003',
+    'version' => '1.004',
     'weights' => ['Light', 'Regular', 'Bold'],
     'data_dir' => realpath(__DIR__ . '/../data'),
     'workspace_dir' => realpath(__DIR__ . '/../../workspace'),

@@ -1,6 +1,8 @@
-v1.004-DEV
+v1.004
 ==========
 - Removed some entries from the PALT table to prevent proportional width behavior. Some glyphs (e.g. ，。？！) are expected to be in full width.  
+- More HK codepoint coverage.
+- 86 more characters added to webfont build.
 
 v1.003
 ======

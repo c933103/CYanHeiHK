@@ -140,6 +140,7 @@ abstract class ContainerAwareCommand extends BaseCommand
     }
     protected function copyFile($sourceDir, $targetDir, $filename, $replaces = [])
     {
+        @mkdir($targetDir, 0755, true);
         $data = file_get_contents($sourceDir . '/' . $filename);
         $data = str_replace(array_keys($replaces), array_values($replaces), $data);
         file_put_contents($targetDir . '/' . $filename, $data);

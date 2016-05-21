@@ -100,7 +100,14 @@ class BuildWoffCommand extends ContainerAwareCommand
             $extraRanges[] = [hexdec($from), hexdec($to)];
         }
 
-        $extraCodepoints = array_flip($keepInSubset['codepoint']);
+        $extraCodepoints = [];
+        foreach ($keepInSubset['codepoint'] as $codepoint) {
+            if (strpos($codepoint, 'U+') === 0) {
+                $codepoint = hexdec(substr($codepoint, 2));
+            }
+            $extraCodepoints[$codepoint] = true;
+        }
+        
         $count = 0;
 
         foreach ($rows as $idx => $row) {

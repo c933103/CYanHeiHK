@@ -1,3 +1,11 @@
+v1.005
+==========
+- Fixed upstream bug 袱 (U+88B1).
+- Fixed glyph 簪 (U+7C2A).
+- Tuned HKSCS glyphs with "既" components.
+- Tuned glyphs with "之" components.
+- Added subsetted TTF version (for mobile app embedding).
+
 v1.004
 ==========
 - Removed some entries from the PALT table to prevent proportional width behavior. Some glyphs (e.g. ，。？！) are expected to be in full width.  

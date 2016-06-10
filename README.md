@@ -76,18 +76,20 @@ See [COMMANDS.md](doc/COMMANDS.md) for details.
 
 Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to download the fonts. Currently two desktop builds and one web font build are available for download.
 
-### Desktop builds
+### Desktop fonts
 
-The font offers two variants for desktop use. Note that the font names are exactly the same, so you cannot install both.
+Two variants of the font pacakge are available for desktop use. Note that the font names are exactly the same, so you cannot install both.
   
 * `CYanHeiHK_{version}.7z` is the “normal version” of the OpenType (.OTF) font files. You're probably looking for this.
 * `CYanHeiHK_{version}_adjusted_fontbbox.7z` is the “adjusted Font BBox version”, provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information](doc/FONTBBOX-ADJUSTED-VERSION.md). Only use it when you understand what it does.
  
 The zip file contains the installable fonts, the license file, and a *changes.html* file which you can use to examine the changed glyphs after installing the fonts. Source Han Sans TW also needs to be installed for the reference glyph to display correctly.
 
-### Web font build
+### Subsetted fonts
 
-`CYanHeiHK_{version}_webfont.7z` is a special build of the font dedicated for the web. It contains a subsetted version of CYanHeiHK (8,786 codepoints), with most OpenType features removed to save space.
+`CYanHeiHK_{version}_subset.7z` is a special build that contains a subsetted version of CYanHeiHK (~8,790 codepoints), with most OpenType features removed. The package contains fonts in WOFF and WOFF2 formats which can be used for the web. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight. In addition, subsetted .ttf files are also available which can be used for e.g. embedding in mobile apps.
+
+Detail of subset coverage is as below: 
 
 For Chinese character glyphs,
    * characters listed in IICORE with Hong Kong, Macau, Taiwan, or Japan source identifier are included. For Japan source, only those overlapping the Big5 or HKSCS code range are included;
@@ -96,8 +98,6 @@ For Chinese character glyphs,
 
 For non-Chinese character glyphs,
    * ASCII, punctuation marks, full-width characters, Hiragana and Katakana symbols are included.
-  
-The package is supplied with fonts in WOFF and WOFF2 formats. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight.
 
 ## Important notes
 

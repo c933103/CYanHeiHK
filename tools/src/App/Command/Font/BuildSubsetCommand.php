@@ -8,13 +8,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class BuildWoffCommand extends ContainerAwareCommand
+class BuildSubsetCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('font:build-woff')
-            ->setDescription('Builds WOFF font.')
+            ->setName('font:build-subset')
+            ->setDescription('Builds subset font, including WOFF, WOFF2 and TTF.')
             ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
     }
 
@@ -39,6 +39,16 @@ class BuildWoffCommand extends ContainerAwareCommand
         $subsetFilePath = $this->prepareSubsetCodepointFile($io);
         $buildDir = $this->getParameter('build_dir');
 
+        $scriptFile = $this->getAppDataDir() . DIRECTORY_SEPARATOR . 'ffscript' . DIRECTORY_SEPARATOR . 'otf2ttf.pe';
+        if (!is_file($scriptFile)) {
+            throw new \Exception('Fontforge script file not found:' . $scriptFile);
+        }
+
+        $fontForgeBin = $this->getParameter('fontforge_bin');
+        if (!is_file($fontForgeBin)) {
+            throw new \Exception('To use this command, "fontforge_bin" must be specified in the parameter file');
+        }
+
         $this->copyFile($this->getAppDataDir() . '/html', $buildDir, 'webfont_demo.html');
 
         foreach ($this->getActionableWeights($input->getOption('weight')) as $weight) {
@@ -61,7 +71,7 @@ class BuildWoffCommand extends ContainerAwareCommand
                         sprintf('%s %s --unicodes-file=%s --flavor=%s --drop-tables+=locl,vhea,vmtx %s --output-file=%s',
                             $pyftsubsetBin,
                             $fontPath,
-                            $subsetFilePath,
+                            $subsetFilePath['all'],
                             $flavor,
                             $hinting ? '--hinting' : '--no-hinting --desubroutinize',
                             $outputFile
@@ -70,6 +80,23 @@ class BuildWoffCommand extends ContainerAwareCommand
                     $io->newLine();
                 }
             }
+
+            $io->text(' Flavor: ttf');
+            $outputFilePrefix = $buildDir . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . '-' . 'unhinted';
+
+            $this->runExternalCommand($io,
+                sprintf('%s %s --unicodes-file=%s --drop-tables+=locl,vhea,vmtx %s --output-file=%s',
+                    $pyftsubsetBin,
+                    $fontPath,
+                    $subsetFilePath['cjk'],
+                    '--no-hinting --desubroutinize',
+                    $outputFilePrefix . '.otf'
+                ));
+
+            $this->runExternalCommand($io, '"' . $fontForgeBin . '" -script ' . $scriptFile . ' ' . $outputFilePrefix . '.otf');
+
+            $io->text('         Done, file created');
+            $io->newLine();
         }
     }
 
@@ -87,7 +114,11 @@ class BuildWoffCommand extends ContainerAwareCommand
              ORDER BY c.codepoint',
             \PDO::FETCH_ASSOC);
 
-        $lines = [];
+        $lines = [
+            'cjkonly' => [],
+            'all' => [],
+        ];
+
         $rows = $stmt->fetchAll();
         $total = count($rows);
         $io->progressStart($total);
@@ -95,9 +126,11 @@ class BuildWoffCommand extends ContainerAwareCommand
         $keepInSubset = parse_ini_file($this->getAppDataDir() . '/fixtures/subset_includes.txt');
 
         $extraRanges = [];
-        foreach ($keepInSubset['range'] as $range) {
-            list($from, $to) = explode('..', $range);
-            $extraRanges[] = [hexdec($from), hexdec($to)];
+        foreach (['noncjk', 'cjk'] as $category) {
+            foreach ($keepInSubset[$category . '_range'] as $range) {
+                list($from, $to) = explode('..', $range);
+                $extraRanges[$category][] = [hexdec($from), hexdec($to)];
+            }
         }
 
         $extraCodepoints = [];
@@ -107,8 +140,6 @@ class BuildWoffCommand extends ContainerAwareCommand
             }
             $extraCodepoints[$codepoint] = true;
         }
-        
-        $count = 0;
 
         foreach ($rows as $idx => $row) {
             $codepoint = $row['codepoint'];
@@ -122,19 +153,22 @@ class BuildWoffCommand extends ContainerAwareCommand
                 || $row['iicore_mo']
                 || $row['new_cid']
             ) {
-                $included = true;
+                $included = 'cjk';
             } else {
-                foreach ($extraRanges as $range) {
-                    if ($codepoint >= $range[0] && $codepoint <= $range[1]) {
-                        $included = true;
+                foreach (['noncjk', 'cjk'] as $category) {
+                    foreach ($extraRanges[$category] as $range) {
+                        if ($codepoint >= $range[0] && $codepoint <= $range[1]) {
+                            $included = $category;
+                        }
                     }
                 }
             }
 
             if ($included) {
-                $lines[] = '#' . $codepoint . ' (' . dechex($codepoint) . ')';
-                $lines[] = dechex($codepoint);
-                $count++;
+                if ($included == 'cjk') {
+                    $lines['cjkonly'][] = dechex($codepoint);
+                }
+                $lines['all'][] = dechex($codepoint);
             }
 
             $io->progressAdvance();
@@ -142,10 +176,15 @@ class BuildWoffCommand extends ContainerAwareCommand
 
         $io->progressFinish();
 
-        $targetFile = $buildDir . DIRECTORY_SEPARATOR . 'unicodes';
-        file_put_contents($targetFile, implode("\n", $lines));
+        $targetFile = $buildDir . DIRECTORY_SEPARATOR . 'subset_unicodes';
+        file_put_contents($targetFile . '_all', implode("\n", $lines['all']));
+        file_put_contents($targetFile . '_cjk', implode("\n", $lines['cjkonly']));
 
-        $io->text(sprintf('Done, %d codepoints will be included', $count));
-        return $targetFile;
+        $io->text(sprintf('Done, %d codepoints will be included (%d for CJK only subset)', count($lines['all']), count($lines['cjkonly'])));
+
+        return [
+            'all' => $targetFile . '_all',
+            'cjk' => $targetFile . '_cjk',
+        ];
     }
 }

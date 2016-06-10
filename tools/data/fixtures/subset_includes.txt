@@ -1,38 +1,45 @@
-; Specify the extra codepoint and ranges to be included in the web font subset
+; Specify the extra codepoints and ranges to be included in the subsetted version
 
 [include_ranges]
+; ==============================================
+; Included by WOFF(2) subset only (TTF Excluded)
+; ==============================================
 ; Basic Latin
-range[] = "0000..007F"
+noncjk_range[] = "0000..007F"
 ; Latin-1 Supplement
-range[] = "0080..00FF"
+noncjk_range[] = "0080..00FF"
 ; Latin Extended-A
-range[] = "0100..017F"
+noncjk_range[] = "0100..017F"
 ; Latin Extended-B
-range[] = "0180..024F"
+noncjk_range[] = "0180..024F"
 ; Spacing Modifier Letters
-range[] = "02B0..02FF"
+noncjk_range[] = "02B0..02FF"
 ; Superscripts and Subscripts
-range[] = "2070..209F"
+noncjk_range[] = "2070..209F"
 ; Currency Symbols
-range[] = "20A0..20CF"
-; Arrows
-range[] = "2190..21FF"
-; Enclosed Alphanumerics
-range[] = "2460..24FF"
-; Kangxi Radicals
-range[] = "2F00..2FDF"
-; CJK Symbols and Punctuation
-range[] = "3000..303F"
+noncjk_range[] = "20A0..20CF"
+
+; =================================
+; Included by WOFF(2) & TTF subsets
+; =================================
 ; Hiragana
-range[] = "3040..309F"
+cjk_range[] = "3040..309F"
 ; Katakana
-range[] = "30A0..30FF"
+cjk_range[] = "30A0..30FF"
 ; Bopomofo
-range[] = "3100..312F"
+cjk_range[] = "3100..312F"
+; Enclosed Alphanumerics
+cjk_range[] = "2460..24FF"
+; Arrows
+cjk_range[] = "2190..21FF"
+; Kangxi Radicals
+cjk_range[] = "2F00..2FDF"
+; CJK Symbols and Punctuation
+cjk_range[] = "3000..303F"
 ; CJK Strokes
-range[] = "31C0..31EF"
+cjk_range[] = "31C0..31EF"
 ; Halfwidth and Fullwidth Forms
-range[] = "FF00..FFEF"
+cjk_range[] = "FF00..FFEF"
 
 [include_codepoints]
 ; Horizontally extended in HKCS
@@ -60,7 +67,6 @@ codepoint[]=U+8F3C
 codepoint[]=U+9196
 
 ; Manually selected BIG5/HKSCS codepoints
-codepoint[]=13869
 codepoint[]=13765
 codepoint[]=13869
 codepoint[]=14231
@@ -114,6 +120,7 @@ codepoint[]=24334
 codepoint[]=24374
 codepoint[]=24394
 codepoint[]=24641
+codepoint[]=24722
 codepoint[]=24872
 codepoint[]=25055
 codepoint[]=25086

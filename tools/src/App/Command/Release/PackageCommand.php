@@ -41,7 +41,7 @@ class PackageCommand extends ContainerAwareCommand
                 'files' => ['changes.html', 'CYanHeiHK-Bold-AdjustedFontBBox.otf', 'CYanHeiHK-Light-AdjustedFontBBox.otf', 'CYanHeiHK-Regular-AdjustedFontBBox.otf'],
             ],
             'Webfont' => [
-                'filename' => 'CYanHeiHK_%prefix%_webfont.7z',
+                'filename' => 'CYanHeiHK_%prefix%_subset.7z',
                 'files' => [
                     'webfont_demo.html',
                     'CYanHeiHK-Bold-hinted.woff',
@@ -56,6 +56,9 @@ class PackageCommand extends ContainerAwareCommand
                     'CYanHeiHK-Regular-hinted.woff2',
                     'CYanHeiHK-Regular-unhinted.woff',
                     'CYanHeiHK-Regular-unhinted.woff2',
+                    'CYanHeiHK-Bold-unhinted.ttf',
+                    'CYanHeiHK-Light-unhinted.ttf',
+                    'CYanHeiHK-Regular-unhinted.ttf',
                 ],
             ],
         ];

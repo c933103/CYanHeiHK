@@ -35,7 +35,7 @@ class BuildCommand extends ContainerAwareCommand
         $this->runSubCommand('font:build-final-cmap', new ArrayInput([]), $output);
         $this->runSubCommand('font:build-merged-ps', new ArrayInput($buildArgs), $output);
         $this->runSubCommand('font:build-otf', new ArrayInput($buildArgs), $output);
-        $this->runSubCommand('font:build-woff', new ArrayInput($buildArgs), $output);
+        $this->runSubCommand('font:build-subset', new ArrayInput($buildArgs), $output);
         $this->runSubCommand('font:generate-modified-glyph-pdf', new ArrayInput($buildArgs), $output);
         $this->runSubCommand('font:generate-changed-glyph-html', new ArrayInput([]), $output);
     }

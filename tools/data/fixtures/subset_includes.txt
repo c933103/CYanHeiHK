@@ -42,7 +42,7 @@ cjk_range[] = "31C0..31EF"
 cjk_range[] = "FF00..FFEF"
 
 [include_codepoints]
-; Horizontally extended in HKCS
+; Horizontally extended in HKSCS
 codepoint[]=U+543F
 codepoint[]=U+5151
 codepoint[]=U+60A6
@@ -255,3 +255,5 @@ codepoint[]=155209
 codepoint[]=164507
 codepoint[]=194726
 codepoint[]=194765
+; 鱇
+codepoint[]=40007

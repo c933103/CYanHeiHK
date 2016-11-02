@@ -1,4 +1,4 @@
 Open($1)
 CIDFlatten()
-SetFontNames("CYanHeiHKSub", "CYanHeiHKSub " + $weight, "CYanHeiHKSub " + $weight)
+SetFontNames("CYanHeiTCHK", "CYanHei TCHK " + $2, "CYanHei TCHK " + $2)
 Generate($1:r + ".ttf")

@@ -61,7 +61,7 @@ class BuildSubsetCommand extends ContainerAwareCommand
             foreach (['woff', 'woff2'] as $flavor) {
                 foreach ([true, false] as $hinting) {
 
-                    $outputFile = $buildDir . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . '-' . ($hinting ? 'hinted' : 'unhinted') . '.' . $flavor;
+                    $outputFile = $buildDir . DIRECTORY_SEPARATOR . 'CYanHei-TCHK-' . $weight . '-' . ($hinting ? 'hinted' : 'unhinted') . '.' . $flavor;
 
                     $io->text(' Flavor: ' . $flavor);
                     $io->text('Hinting: ' . ($hinting ? 'Yes' : 'No'));
@@ -81,22 +81,39 @@ class BuildSubsetCommand extends ContainerAwareCommand
                 }
             }
 
-            $io->text(' Flavor: ttf');
-            $outputFilePrefix = $buildDir . DIRECTORY_SEPARATOR . 'CYanHeiHK-' . $weight . '-' . 'unhinted';
 
-            $this->runExternalCommand($io,
-                sprintf('%s %s --unicodes-file=%s --drop-tables+=locl,vhea,vmtx %s --output-file=%s',
-                    $pyftsubsetBin,
-                    $fontPath,
-                    $subsetFilePath['cjk'],
-                    '--no-hinting --desubroutinize',
-                    $outputFilePrefix . '.otf'
-                ));
+            // TTF, with Latin
+            $produceTTF = function ($subset, $hinting, $weight, $outputFilePrefix) use ($io, $buildDir, $fontForgeBin, $pyftsubsetBin, $scriptFile, $fontPath) {
 
-            $this->runExternalCommand($io, '"' . $fontForgeBin . '" -script ' . $scriptFile . ' ' . $outputFilePrefix . '.otf');
+                $this->runExternalCommand($io,
+                    sprintf('%s %s --unicodes-file=%s --drop-tables+=locl,vhea,vmtx %s --output-file=%s',
+                        $pyftsubsetBin,
+                        $fontPath,
+                        $subset,
+                        $hinting ? '' : '--no-hinting --desubroutinize',
+                        $outputFilePrefix . '.otf'
+                    ));
 
-            $io->text('         Done, file created');
-            $io->newLine();
+                $this->runExternalCommand($io, '"' . $fontForgeBin . '" -script ' . $scriptFile . ' ' . $outputFilePrefix . '.otf ' . $weight);
+            };
+
+            foreach (['all', 'cjk'] as $subset) {
+                foreach ([true, false] as $hinting) {
+                    $io->text(sprintf(' Flavor: TTF / %s / %s',
+                        $subset == 'all' ? 'With latin characters' : 'Without latin characters',
+                        $hinting ? 'Hinted' : 'Unhinted'
+                    ));
+
+                    $outputFilePrefix = sprintf($buildDir . DIRECTORY_SEPARATOR . 'CYanHei-TCHK-' . $weight . '-' . '%s-%s',
+                        $subset == 'all' ? 'all' : 'nolatin',
+                        $hinting ? 'hinted' : 'unhinted'
+                    );
+
+                    $produceTTF($subsetFilePath[$subset], $hinting, $weight, $outputFilePrefix);
+
+                    $io->newLine();
+                }
+            }
         }
     }
 

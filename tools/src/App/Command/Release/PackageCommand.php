@@ -34,32 +34,44 @@ class PackageCommand extends ContainerAwareCommand
         $buildDirFileSets = [
             'Normal version' => [
                 'filename' => 'CYanHeiHK_%prefix%.7z',
-                'files' => ['changes.html', 'CYanHeiHK-Bold.otf', 'CYanHeiHK-Light.otf', 'CYanHeiHK-Regular.otf'],
+                'files' => function () {
+                    return ['changes.html', 'CYanHeiHK-Bold.otf', 'CYanHeiHK-Light.otf', 'CYanHeiHK-Regular.otf'];
+                },
             ],
             'FontBBox adjusted version' => [
                 'filename' => 'CYanHeiHK_%prefix%_adjusted_fontbbox.7z',
-                'files' => ['changes.html', 'CYanHeiHK-Bold-AdjustedFontBBox.otf', 'CYanHeiHK-Light-AdjustedFontBBox.otf', 'CYanHeiHK-Regular-AdjustedFontBBox.otf'],
+                'files' => function () {
+                    return ['changes.html', 'CYanHeiHK-Bold-AdjustedFontBBox.otf', 'CYanHeiHK-Light-AdjustedFontBBox.otf', 'CYanHeiHK-Regular-AdjustedFontBBox.otf'];
+                },
             ],
             'Webfont' => [
                 'filename' => 'CYanHeiHK_%prefix%_subset.7z',
-                'files' => [
-                    'webfont_demo.html',
-                    'CYanHeiHK-Bold-hinted.woff',
-                    'CYanHeiHK-Bold-hinted.woff2',
-                    'CYanHeiHK-Bold-unhinted.woff',
-                    'CYanHeiHK-Bold-unhinted.woff2',
-                    'CYanHeiHK-Light-hinted.woff',
-                    'CYanHeiHK-Light-hinted.woff2',
-                    'CYanHeiHK-Light-unhinted.woff',
-                    'CYanHeiHK-Light-unhinted.woff2',
-                    'CYanHeiHK-Regular-hinted.woff',
-                    'CYanHeiHK-Regular-hinted.woff2',
-                    'CYanHeiHK-Regular-unhinted.woff',
-                    'CYanHeiHK-Regular-unhinted.woff2',
-                    'CYanHeiHK-Bold-unhinted.ttf',
-                    'CYanHeiHK-Light-unhinted.ttf',
-                    'CYanHeiHK-Regular-unhinted.ttf',
-                ],
+                'files' => function () {
+
+                    $files = ['webfont_demo.html'];
+
+                    foreach (['Bold', 'Light', 'Regular'] as $weight) {
+                        foreach (['hinted', 'unhinted'] as $hinted) {
+                            foreach (['all', 'nolatin'] as $subset) {
+                                $files[] = sprintf('CYanHei-TCHK-%s-%s-%s.ttf',
+                                    $weight,
+                                    $subset,
+                                    $hinted
+                                );
+                            }
+
+                            foreach (['woff', 'woff2'] as $extension) {
+                                $files[] = sprintf('CYanHei-TCHK-%s-%s.%s',
+                                    $weight,
+                                    $hinted,
+                                    $extension
+                                );
+                            }
+                        }
+                    }
+
+                    return $files;
+                },
             ],
         ];
 
@@ -76,7 +88,7 @@ class PackageCommand extends ContainerAwareCommand
                     $files[] = $path;
                 }
                 // 1. Ensure file exist
-                foreach ($fileSet['files'] as $filename) {
+                foreach ($fileSet['files']() as $filename) {
                     $path = $buildDir . DIRECTORY_SEPARATOR . $filename;
                     $io->comment('Adding ' . $path);
                     if (!file_exists($path)) {

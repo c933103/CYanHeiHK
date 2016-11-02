@@ -35,7 +35,8 @@ cjk_range[] = "2190..21FF"
 ; Kangxi Radicals
 cjk_range[] = "2F00..2FDF"
 ; CJK Symbols and Punctuation
-cjk_range[] = "3000..303F"
+cjk_range[] = "3000..3029"
+cjk_range[] = "302a..3030"
 ; CJK Strokes
 cjk_range[] = "31C0..31EF"
 ; Halfwidth and Fullwidth Forms

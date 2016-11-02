@@ -1,3 +1,9 @@
+v1.006
+==========
+- Fixed bug for glyph 婦 in Regular weight
+- Added subsetted TTF version without Latin characters (fallback to system Latin fonts when embedded in mobile app).
+- Note that the subsetted fonts are renamed to "CYanHei TCHK".
+
 v1.005
 ==========
 - Fixed upstream bug 袱 (U+88B1).

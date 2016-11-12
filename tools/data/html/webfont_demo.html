@@ -10,48 +10,50 @@
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <style>
-        body {
+        #content {
             font-size: 4em;
+            word-break: break-all;
         }
+
         @font-face {
             font-family: CYanHeiHK-Unhinted;
-            src: url('CYanHeiHK-Light-unhinted.woff2') format('woff2');
-            src: url('CYanHeiHK-Light-unhinted.woff') format('woff');
+            src: url('CYanHei-TCHK-Light-unhinted.woff2') format('woff2');
+            src: url('CYanHei-TCHK-Light-unhinted.woff') format('woff');
             font-weight: 300;
         }
 
         @font-face {
             font-family: CYanHeiHK-Unhinted;
-            src: url('CYanHeiHK-Regular-unhinted.woff2') format('woff2');
-            src: url('CYanHeiHK-Regular-unhinted.woff') format('woff');
+            src: url('CYanHei-TCHK-Regular-unhinted.woff2') format('woff2');
+            src: url('CYanHei-TCHK-Regular-unhinted.woff') format('woff');
             font-weight: 400;
         }
 
         @font-face {
             font-family: CYanHeiHK-Unhinted;
-            src: url('CYanHeiHK-Bold-unhinted.woff2') format('woff2');
-            src: url('CYanHeiHK-Bold-unhinted.woff') format('woff');
+            src: url('CYanHei-TCHK-Bold-unhinted.woff2') format('woff2');
+            src: url('CYanHei-TCHK-Bold-unhinted.woff') format('woff');
             font-weight: 700;
         }
 
         @font-face {
             font-family: CYanHeiHK-Hinted;
-            src: url('CYanHeiHK-Light-hinted.woff2') format('woff2');
-            src: url('CYanHeiHK-Light-hinted.woff') format('woff');
+            src: url('CYanHei-TCHK-Light-hinted.woff2') format('woff2');
+            src: url('CYanHei-TCHK-Light-hinted.woff') format('woff');
             font-weight: 300;
         }
 
         @font-face {
             font-family: CYanHeiHK-Hinted;
-            src: url('CYanHeiHK-Regular-hinted.woff2') format('woff2');
-            src: url('CYanHeiHK-Regular-hinted.woff') format('woff');
+            src: url('CYanHeiK-TCHK-Regular-hinted.woff2') format('woff2');
+            src: url('CYanHei-TCHK-Regular-hinted.woff') format('woff');
             font-weight: 400;
         }
 
         @font-face {
             font-family: CYanHeiHK-Hinted;
-            src: url( 'CYanHeiHK-Bold-hinted.woff2') format('woff2');
-            src: url('CYanHeiHK-Bold-hinted.woff') format('woff');
+            src: url('CYanHei-TCHK-Bold-hinted.woff2') format('woff2');
+            src: url('CYanHei-TCHK-Bold-hinted.woff') format('woff');
             font-weight: 700;
         }
 
@@ -63,93 +65,60 @@
             font-family: CYanHeiHK-Hinted;
         }
 
-        p.light {
+        .light {
             font-weight: 300;
         }
 
-        p.normal {
+        .normal {
             font-weight: 400;
         }
 
-        p.bold {
+        .bold {
             font-weight: 700;
         }
 
 
+        #weight-selector {
+            position: fixed;
+            left: 12px;
+            top: 8px;
+            max-width: 300px;
+            border:1px solid #aaa;
+            padding: 8px;
+        }
+
+        #weight-selector a {
+            display: block;
+        }
+
+        .col-xs-1 {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div id="weight-selector">
+        <a href="#" class="set-weight" data-weight="light">Light</a>
+        <a href="#" class="set-weight" data-weight="normal">Normal</a>
+        <a href="#" class="set-weight" data-weight="bold">Bold</a>
+    </div>
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    Hinted
-                </div>
-                <div class="panel-body hinted">
-                    <p class="light">
-                        天地玄黃，宇宙洪荒。<br/>
-                        日月盈昃，辰宿列張。
-                    </p>
-                    <p class="normal">
-                        寒來暑往，秋收冬藏。<br/>
-                        閏餘成歲，律呂調陽。
-                    </p>
-                    <p class="bold">
-                        雲騰致雨，露結為霜。<br/>
-                        金生麗水，玉出崑岡。
-                    </p>
-                    <p class="light">
-                        劍號巨闕，珠稱夜光。<br/>
-                        果珍李柰，菜重芥薑。
-                    </p>
-                    <p class="normal">
-                        海鹹河淡，鱗潛羽翔。<br/>
-                        龍師火帝，鳥官人皇。
-                    </p>
-                    <p class="bold">
-                        始制文字，乃服衣裳。<br/>
-                        推位讓國，有虞陶唐。
-                    </p>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Unhinted
-                </div>
-                <div class="panel-body unhinted">
-                    <p class="light">
-                        天地玄黃，宇宙洪荒。<br/>
-                        日月盈昃，辰宿列張。
-                    </p>
-                    <p class="normal">
-                        寒來暑往，秋收冬藏。<br/>
-                        閏餘成歲，律呂調陽。
-                    </p>
-                    <p class="bold">
-                        雲騰致雨，露結為霜。<br/>
-                        金生麗水，玉出崑岡。
-                    </p>
-                    <p class="light">
-                        劍號巨闕，珠稱夜光。<br/>
-                        果珍李柰，菜重芥薑。
-                        </p>
-                    <p class="normal">
-                        海鹹河淡，鱗潛羽翔。<br/>
-                        龍師火帝，鳥官人皇。
-                    </p>
-                    <p class="bold">
-                        始制文字，乃服衣裳。<br/>
-                        推位讓國，有虞陶唐。
-                    </p>
+                <div class="panel-body hinted light" id="content">
+                    %content%
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(function() {
+        $('.set-weight').on('mouseover', function() {
+            $('#content').removeClass('light normal bold').addClass($(this).data('weight'));
+        });
+    })
+</script>
 </body>
 </html>
-

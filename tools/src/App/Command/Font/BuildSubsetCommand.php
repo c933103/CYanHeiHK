@@ -49,8 +49,6 @@ class BuildSubsetCommand extends ContainerAwareCommand
             throw new \Exception('To use this command, "fontforge_bin" must be specified in the parameter file');
         }
 
-        $this->copyFile($this->getAppDataDir() . '/html', $buildDir, 'webfont_demo.html');
-
         foreach ($this->getActionableWeights($input->getOption('weight')) as $weight) {
             $io->section('Creating font files for ' . $weight . ' weight');
             $dirs = $this->getDirConfigForWeight($weight);
@@ -150,7 +148,9 @@ class BuildSubsetCommand extends ContainerAwareCommand
             }
         }
 
+        $excludeCodepoints = [];
         $extraCodepoints = [];
+
         foreach ($keepInSubset['codepoint'] as $codepoint) {
             if (strpos($codepoint, 'U+') === 0) {
                 $codepoint = hexdec(substr($codepoint, 2));
@@ -158,10 +158,23 @@ class BuildSubsetCommand extends ContainerAwareCommand
             $extraCodepoints[$codepoint] = true;
         }
 
+        foreach ($keepInSubset['exclude_codepoint'] as $codepoint) {
+            if (strpos($codepoint, 'U+') === 0) {
+                $codepoint = hexdec(substr($codepoint, 2));
+            }
+            $excludeCodepoints[$codepoint] = true;
+        }
+
         foreach ($rows as $idx => $row) {
             $codepoint = $row['codepoint'];
 
             $included = false;
+
+            if (isset($excludeCodepoints[$codepoint])) {
+                $io->progressAdvance();
+                continue;
+            }
+
             if (isset($extraCodepoints[$codepoint])
                 || $row['hk_common']
                 || $row['iicore_hk']
@@ -186,6 +199,7 @@ class BuildSubsetCommand extends ContainerAwareCommand
                     $lines['cjkonly'][] = dechex($codepoint);
                 }
                 $lines['all'][] = dechex($codepoint);
+                $lines['demopage'][] = $codepoint;
             }
 
             $io->progressAdvance();
@@ -198,6 +212,20 @@ class BuildSubsetCommand extends ContainerAwareCommand
         file_put_contents($targetFile . '_cjk', implode("\n", $lines['cjkonly']));
 
         $io->text(sprintf('Done, %d codepoints will be included (%d for CJK only subset)', count($lines['all']), count($lines['cjkonly'])));
+
+        //
+
+        $str = '';
+        $codepoints = $lines['demopage'];
+        sort($codepoints);
+        foreach ($codepoints as $codepoint) {
+            $char = mb_convert_encoding(pack('N', $codepoint), 'UTF-8', 'UCS-4BE');
+            $str .= sprintf('<div class="col-xs-1" data-codepoint="%d">%s</div>', $codepoint, $char);
+        }
+
+        $webfontDemoContent = file_get_contents($this->getAppDataDir() . '/html/webfont_demo.html');
+        $webfontDemoContent = str_replace('%content%', $str, $webfontDemoContent);
+        file_put_contents($buildDir . '/webfont_demo.html', $webfontDemoContent);
 
         return [
             'all' => $targetFile . '_all',

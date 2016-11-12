@@ -87,17 +87,17 @@ The zip file contains the installable fonts, the license file, and a *changes.ht
 
 ### Subsetted fonts
 
-`CYanHeiHK_{version}_subset.7z` is a special build that contains a subsetted version of CYanHeiHK (~8,790 codepoints), with most OpenType features removed. The package contains fonts in WOFF and WOFF2 formats which can be used for the web. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight. In addition, subsetted .ttf files are also available which can be used for e.g. embedding in mobile apps.
+`CYanHeiHK_{version}_subset.7z` is a special build that contains a subsetted version of CYanHeiHK (~8,410 codepoints), with most OpenType features removed. The package contains fonts in WOFF and WOFF2 formats which can be used for the web. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight. In addition, subsetted .ttf files are also available which can be used for e.g. embedding in mobile apps.
 
 Detail of subset coverage is as below: 
 
 For Chinese character glyphs,
-   * characters listed in IICORE with Hong Kong, Macau, Taiwan, or Japan source identifier are included. For Japan source, only those overlapping the Big5 or HKSCS code range are included;
-   * characters revised (either remapped or modified) for Hong Kong's needs in this project are always included;
-   * additional characters manually selected to include in the web font. These are mostly HKSCS characters (e.g. 㗅, 喆).  
+   * characters listed in IICORE with Hong Kong, Macau, Taiwan, or Japan source identifier are included by default but will be excluded if rarely used. For Japan source, only those overlapping the Big5 or HKSCS code range are included by default. I try to be conservative here, around 370 characters are removed in the selection process. 
+   * most characters revised (either remapped or modified) for Hong Kong's needs in this project are included;
+   * some additional characters (mostly HKSCS characters like 㗅, 喆) are manually selected to include in the web font.  
 
 For non-Chinese character glyphs,
-   * ASCII, punctuation marks, full-width characters, Hiragana and Katakana symbols are included.
+   * ASCII, punctuation marks, full-width characters, Hiragana and Katakana symbols are included, except for the "no-latin" vairant.
 
 ## Important notes
 

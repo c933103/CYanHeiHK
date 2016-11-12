@@ -1,3 +1,9 @@
+v1.007
+==========
+- Added workset 6 to remap 27 more characters.
+- Fixed mapping of 聰 and 荊.
+- Reviewed and Removed ~370 characters from the subsetted version, and added some more characters deemed useful to it.
+
 v1.006
 ==========
 - Fixed bug for glyph 婦 in Regular weight

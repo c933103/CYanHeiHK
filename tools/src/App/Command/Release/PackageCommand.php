@@ -51,15 +51,12 @@ class PackageCommand extends ContainerAwareCommand
                     $files = ['webfont_demo.html'];
 
                     foreach (['Bold', 'Light', 'Regular'] as $weight) {
-                        foreach (['hinted', 'unhinted'] as $hinted) {
-                            foreach (['all', 'nolatin'] as $subset) {
-                                $files[] = sprintf('CYanHei-TCHK-%s-%s-%s.ttf',
-                                    $weight,
-                                    $subset,
-                                    $hinted
-                                );
-                            }
 
+                        foreach (['all', 'nolatin'] as $subset) {
+                            $files[] = sprintf('CYanHei-TCHK-%s-%s.ttf', $weight, $subset);
+                        }
+
+                        foreach (['hinted', 'unhinted'] as $hinted) {
                             foreach (['woff', 'woff2'] as $extension) {
                                 $files[] = sprintf('CYanHei-TCHK-%s-%s.%s',
                                     $weight,

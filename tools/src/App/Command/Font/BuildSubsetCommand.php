@@ -96,21 +96,19 @@ class BuildSubsetCommand extends ContainerAwareCommand
             };
 
             foreach (['all', 'cjk'] as $subset) {
-                foreach ([true, false] as $hinting) {
-                    $io->text(sprintf(' Flavor: TTF / %s / %s',
-                        $subset == 'all' ? 'With latin characters' : 'Without latin characters',
-                        $hinting ? 'Hinted' : 'Unhinted'
-                    ));
+                $hinting = false;
+                $io->text(sprintf(' Flavor: TTF / %s / %s',
+                    $subset == 'all' ? 'With latin characters' : 'Without latin characters',
+                    $hinting ? 'Hinted' : 'Unhinted'
+                ));
 
-                    $outputFilePrefix = sprintf($buildDir . DIRECTORY_SEPARATOR . 'CYanHei-TCHK-' . $weight . '-' . '%s-%s',
-                        $subset == 'all' ? 'all' : 'nolatin',
-                        $hinting ? 'hinted' : 'unhinted'
-                    );
+                $outputFilePrefix = sprintf($buildDir . DIRECTORY_SEPARATOR . 'CYanHei-TCHK-' . $weight . '-' . '%s',
+                    $subset == 'all' ? 'all' : 'nolatin'
+                );
 
-                    $produceTTF($subsetFilePath[$subset], $hinting, $weight, $outputFilePrefix);
+                $produceTTF($subsetFilePath[$subset], $hinting, $weight, $outputFilePrefix);
 
-                    $io->newLine();
-                }
+                $io->newLine();
             }
         }
     }

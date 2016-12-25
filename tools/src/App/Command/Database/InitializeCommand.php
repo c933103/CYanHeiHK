@@ -12,12 +12,13 @@ class InitializeCommand extends ContainerAwareCommand
     {
         $this
             ->setName('db:init')
-            ->setDescription('Runs db:init-schema followed by db:init-cmap');
+            ->setDescription('Runs db:init-schema followed by db:init-cmap and db:init-subset');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->runSubCommand('db:init-schema', $input, $output);
         $this->runSubCommand('db:init-cmap', $input, $output);
+        $this->runSubCommand('db:init-subset', $input, $output);
     }
 }

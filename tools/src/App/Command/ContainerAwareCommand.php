@@ -66,7 +66,7 @@ abstract class ContainerAwareCommand extends BaseCommand
         $stmt = $conn->query('SELECT DISTINCT workset FROM process WHERE workset > 0 ORDER BY workset');
         $result = [];
         foreach ($stmt->fetchAll() as $row) {
-            $result[] = (int)$row[0];
+            $result[] = (int) $row[0];
         }
 
         return $result;
@@ -126,9 +126,9 @@ abstract class ContainerAwareCommand extends BaseCommand
     protected function getSourceHanSansPsFilePath($weight)
     {
         return $this->getParameter('shs_dir')
-        . DIRECTORY_SEPARATOR . $weight
-        . DIRECTORY_SEPARATOR . 'OTC'
-        . DIRECTORY_SEPARATOR . 'cidfont.ps.OTC.TC';
+            . DIRECTORY_SEPARATOR . $weight
+            . DIRECTORY_SEPARATOR . 'OTC'
+            . DIRECTORY_SEPARATOR . 'cidfont.ps.OTC.TC';
     }
 
     protected function getDirConfigForWeight($weight)
@@ -138,6 +138,7 @@ abstract class ContainerAwareCommand extends BaseCommand
             'build_dir' => $this->getParameter('build_dir') . '/' . $weight,
         ];
     }
+
     protected function copyFile($sourceDir, $targetDir, $filename, $replaces = [])
     {
         @mkdir($targetDir, 0755, true);
@@ -146,4 +147,10 @@ abstract class ContainerAwareCommand extends BaseCommand
         file_put_contents($targetDir . '/' . $filename, $data);
     }
 
+    protected function utf8CharToIntCodepoint($char)
+    {
+        $uchar = mb_convert_encoding($char, "UCS-4BE", 'UTF-8');
+        $val = unpack("N", $uchar);
+        return $val[1];
+    }
 }

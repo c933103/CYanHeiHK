@@ -4,6 +4,10 @@ namespace App\Data;
 
 class Database
 {
+    const SUBSET_CATEGORY_CJK = 1;
+
+    const SUBSET_CATEGORY_NON_CJK = 2;
+
     /**
      * @var string
      */
@@ -34,6 +38,8 @@ class Database
         $conn->exec('CREATE TABLE chardata (codepoint INT PRIMARY KEY, big5 VARCHAR(8), hkscs VARCHAR(8), hk_common INT, iicore_hk VARCHAR(10), iicore_tw VARCHAR(5), iicore_jp VARCHAR(5), iicore_mo VARCHAR(5))');
         $conn->exec('CREATE TABLE cmap (codepoint INT PRIMARY KEY, hex_cp VARCHAR(10), cid_cn INT, cid_jp INT, cid_kr INT, cid_tw INT, cid_hk INT)');
         $conn->exec('CREATE TABLE process (codepoint INT, workset INT, tag VARCHAR(10), category VARCHAR(10), action VARCHAR(10), new_cid INT, export INT)');
+        $conn->exec('CREATE TABLE subset (codepoint INT, hex_cp VARCHAR(10), category INT)');
+        $conn->exec('CREATE INDEX subset_hex_codepoint ON subset (hex_cp)');
     }
 
     public function deleteAll($tableName, $condition)

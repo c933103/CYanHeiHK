@@ -3,6 +3,7 @@
 namespace App\Command\Font;
 
 use App\Command\ContainerAwareCommand;
+use App\Data\Database;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -115,96 +116,28 @@ class BuildSubsetCommand extends ContainerAwareCommand
 
     private function prepareSubsetCodepointFile(SymfonyStyle $io)
     {
-        $io->section('Preparing font subsetting file');
-
-        $buildDir = $this->getParameter('build_dir');
-
-        $stmt = $this->getCharacterDatabase()->getConnection()->query(
-            'SELECT c.codepoint, d.hk_common, d.iicore_hk, d.iicore_tw, d.iicore_jp, d.iicore_mo, c.cid_tw AS cid, p.new_cid 
-             FROM cmap c
-             LEFT JOIN chardata d ON c.codepoint = d.codepoint 
-             LEFT JOIN process p ON c.codepoint = p.codepoint 
-             ORDER BY c.codepoint',
-            \PDO::FETCH_ASSOC);
+        $io->section('Preparing font subsetting files');
 
         $lines = [
             'cjkonly' => [],
             'all' => [],
         ];
 
-        $rows = $stmt->fetchAll();
-        $total = count($rows);
-        $io->progressStart($total);
+        $conn = $this->getCharacterDatabase()->getConnection();
+        $stmt = $conn->prepare('SELECT * FROM subset');
+        $stmt->execute();
 
-        $keepInSubset = parse_ini_file($this->getAppDataDir() . '/fixtures/subset_includes.txt');
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        $extraRanges = [];
-        foreach (['noncjk', 'cjk'] as $category) {
-            foreach ($keepInSubset[$category . '_range'] as $range) {
-                list($from, $to) = explode('..', $range);
-                $extraRanges[$category][] = [hexdec($from), hexdec($to)];
+        foreach ($result as $item) {
+            if ($item['category'] == Database::SUBSET_CATEGORY_CJK) {
+                $lines['cjkonly'][] = $item['hex_cp'];
             }
+            $lines['all'][] = $item['hex_cp'];
+            $lines['demopage'][] = $item['codepoint'];
         }
 
-        $excludeCodepoints = [];
-        $extraCodepoints = [];
-
-        foreach ($keepInSubset['codepoint'] as $codepoint) {
-            if (strpos($codepoint, 'U+') === 0) {
-                $codepoint = hexdec(substr($codepoint, 2));
-            }
-            $extraCodepoints[$codepoint] = true;
-        }
-
-        foreach ($keepInSubset['exclude_codepoint'] as $codepoint) {
-            if (strpos($codepoint, 'U+') === 0) {
-                $codepoint = hexdec(substr($codepoint, 2));
-            }
-            $excludeCodepoints[$codepoint] = true;
-        }
-
-        foreach ($rows as $idx => $row) {
-            $codepoint = $row['codepoint'];
-
-            $included = false;
-
-            if (isset($excludeCodepoints[$codepoint])) {
-                $io->progressAdvance();
-                continue;
-            }
-
-            if (isset($extraCodepoints[$codepoint])
-                || $row['hk_common']
-                || $row['iicore_hk']
-                || $row['iicore_tw']
-                || $row['iicore_jp']
-                || $row['iicore_mo']
-                || $row['new_cid']
-            ) {
-                $included = 'cjk';
-            } else {
-                foreach (['noncjk', 'cjk'] as $category) {
-                    foreach ($extraRanges[$category] as $range) {
-                        if ($codepoint >= $range[0] && $codepoint <= $range[1]) {
-                            $included = $category;
-                        }
-                    }
-                }
-            }
-
-            if ($included) {
-                if ($included == 'cjk') {
-                    $lines['cjkonly'][] = dechex($codepoint);
-                }
-                $lines['all'][] = dechex($codepoint);
-                $lines['demopage'][] = $codepoint;
-            }
-
-            $io->progressAdvance();
-        }
-
-        $io->progressFinish();
-
+        $buildDir = $this->getParameter('build_dir');
         $targetFile = $buildDir . DIRECTORY_SEPARATOR . 'subset_unicodes';
         file_put_contents($targetFile . '_all', implode("\n", $lines['all']));
         file_put_contents($targetFile . '_cjk', implode("\n", $lines['cjkonly']));

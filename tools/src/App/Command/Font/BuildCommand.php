@@ -32,6 +32,7 @@ class BuildCommand extends ContainerAwareCommand
             $this->runSubCommand('ff:generate', new ArrayInput($ffArgs), $output);
         }
 
+        $this->runSubCommand('db:init-subset', new ArrayInput([]), $output);
         $this->runSubCommand('font:build-final-cmap', new ArrayInput([]), $output);
         $this->runSubCommand('font:build-merged-ps', new ArrayInput($buildArgs), $output);
         $this->runSubCommand('font:build-otf', new ArrayInput($buildArgs), $output);

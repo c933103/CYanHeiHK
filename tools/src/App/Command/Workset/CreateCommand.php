@@ -28,7 +28,8 @@ For every weight and category, this command creates the following files in the w
 EOT
             )
             ->addArgument('workset_id', InputArgument::OPTIONAL, 'Limit the workset ID to act upon (default to all)')
-            ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null);
+            ->addOption('weight', 'w', InputOption::VALUE_REQUIRED, 'Specify the weight to act upon', null)
+            ->addOption('map-files-only', 'm', InputOption::VALUE_NONE, 'Only exports the mergeFont map files', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -38,6 +39,7 @@ EOT
 
         $afdkoBinDir = $this->getParameter('afdko_bin_dir');
         $weights = $this->getActionableWeights($input->getOption('weight'));
+        $mapFilesOnly = $input->getOption('map-files-only');
 
         $ids = $this->getImportedWorksetIds();
         $customWorksetId = $input->getArgument('workset_id');
@@ -56,7 +58,7 @@ EOT
 
         foreach ($ids as $id) {
             $io->block(':::::::::: Workset #' . $id . ' ::::::::::');
-            $this->createWorksetFiles($io, $afdkoBinDir, $id, $weights);
+            $this->createWorksetFiles($io, $afdkoBinDir, $id, $weights, $mapFilesOnly);
         }
 
         $io->success('Operation complete');
@@ -88,7 +90,7 @@ EOT
         file_put_contents($mappingFile, $s);
     }
 
-    private function createWorksetFiles(SymfonyStyle $io, $afdkoBinDir, $worksetId, $weights)
+    private function createWorksetFiles(SymfonyStyle $io, $afdkoBinDir, $worksetId, $weights, $mapFilesOnly)
     {
         $worksetDir = $this->getWorksetDir($worksetId);
 
@@ -123,38 +125,50 @@ EOT
 
             $shsPsFile = $this->getSourceHanSansPsFilePath($weight);
 
-            if ($worksetId == 1) {
-                $this->createPunctuationFiles($io, $afdkoBinDir, $shsPsFile, $worksetDir, $weight);
-            }
+//            if ($worksetId == 1) {
+//                $this->createPunctuationFiles($io, $afdkoBinDir, $shsPsFile, $worksetDir, $weight);
+//            }
 
             foreach ($exportGlyphs as $category => $cids) {
                 $io->text('Exporting ' . $categoryText[$category] . ' glyphs');
 
-                // PDF file
-                $targetFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '.pdf';
-                $io->text(' - PDF file (' . $targetFile . ')');
-                $cmd = sprintf('%s/tx -pdf -g %s %s %s',
-                    $afdkoBinDir,
-                    implode(',', array_keys($cids)),
-                    $shsPsFile,
-                    $targetFile);
+                if (!$mapFilesOnly) {
+                    // PDF file
+                    $targetFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '.pdf';
+                    $io->text(' - PDF file (' . $targetFile . ')');
+                    $cmd = sprintf('%s/tx -pdf -g %s %s %s',
+                        $afdkoBinDir,
+                        implode(',', array_keys($cids)),
+                        $shsPsFile,
+                        $targetFile);
 
-                $this->runExternalCommand($io, $cmd);
+                    $this->runExternalCommand($io, $cmd);
 
-                // PFA file
+                    // PFA file
 
-                $targetFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '.pfa';
-                $io->text(' - Producing PFA file');
-                $cmd = sprintf('%s/tx -t1 -decid -g %s %s %s',
-                    $afdkoBinDir,
-                    implode(',', array_keys($cids)),
-                    $shsPsFile,
-                    $targetFile);
+                    $targetFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '.pfa';
+                    $io->text(' - Producing PFA file');
+                    $cmd = sprintf('%s/tx -t1 -decid -g %s %s %s',
+                        $afdkoBinDir,
+                        implode(',', array_keys($cids)),
+                        $shsPsFile,
+                        $targetFile);
 
-                $this->runExternalCommand($io, $cmd);
+                    $this->runExternalCommand($io, $cmd);
+                    // REFERENCE PFA file
+                    $targetFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '_ref.pfa';
+                    $io->text(' - Reference glyphs (' . $targetFile . ')');
+
+                    $cmd = sprintf('%s/tx -t1 -decid -g %s %s %s',
+                        $afdkoBinDir,
+                        implode(',', array_keys($referenceGlyphs[$category])),
+                        $shsPsFile,
+                        $targetFile);
+
+                    $this->runExternalCommand($io, $cmd);
+                }
 
                 // MAP file
-
                 $mappingFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '.map';
                 $io->text(' - Mergefont property file (' . $mappingFile . ')');
 
@@ -164,18 +178,6 @@ EOT
                 }
 
                 file_put_contents($mappingFile, $s);
-
-                // REFERENCE PFA file
-                $targetFile = $worksetDir . DIRECTORY_SEPARATOR . $weight . DIRECTORY_SEPARATOR . $category . '_ref.pfa';
-                $io->text(' - Reference glyphs (' . $targetFile . ')');
-
-                $cmd = sprintf('%s/tx -t1 -decid -g %s %s %s',
-                    $afdkoBinDir,
-                    implode(',', array_keys($referenceGlyphs[$category])),
-                    $shsPsFile,
-                    $targetFile);
-
-                $this->runExternalCommand($io, $cmd);
             }
         }
     }

@@ -1,3 +1,7 @@
+v1.008a
+==========
+- Fixed "妊" not remapped to the "⿰女𡈼" form
+
 v1.008
 ==========
 - Remapped/Redesigned characters to use the "hooked" form of the 七, 乜, 巽(巳) components:

@@ -14,8 +14,8 @@ return [
     // Path to 7-zip, only needed for release:package command
     '7zip_bin' => 'C:\\Program Files\\7-Zip\\7z.exe',
 
-	// DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
-    'version' => '1.004',
+    // DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
+    'version' => file_get_contents(__DIR__ . '/../../VERSION'),
     'weights' => ['Light', 'Regular', 'Bold'],
     'data_dir' => realpath(__DIR__ . '/../data'),
     'workspace_dir' => realpath(__DIR__ . '/../../workspace'),

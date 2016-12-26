@@ -1,3 +1,14 @@
+v1.008
+==========
+- Remapped/Redesigned characters to use the "hooked" form of the 七, 乜, 巽(巳) components:
+  * 七 related: 七吒柒𠮟皂𨳍
+  * 乜 related: 乜也乸他拖吔哋地她弛施池牠祂釶馳
+  * 巽(巳) related: 僎巽撰潠簨蟤譔選鐉饌
+- Remapped characters so that the first stroke of 壬 component is a slash (丿):
+  * 壬 related: 任凭壬姙恁栠賃飪鵀
+- Updated mappings of 腼 and 膦 to use the font's preferred form (月 instead of ⺼)
+- Use HK standard form for 蘸 and 馥
+
 v1.007
 ==========
 - Added workset 6 to remap 27 more characters.

@@ -1,3 +1,9 @@
+v1.009
+==========
+- **Removed special mappings of 兌 and 𥁕 components.** This is a difficult decision, but unfortunately this has caused more trouble than I had expected in practice.
+- New workset 8: reviewed and modified more codepoints.
+- Fixed some inconsistency glyphs.
+
 v1.008a
 ==========
 - Fixed "妊" not remapped to the "⿰女𡈼" form

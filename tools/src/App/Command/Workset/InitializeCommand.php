@@ -82,7 +82,12 @@ class InitializeCommand extends BaseCommand
             if ($action1 == '*') {
                 continue;
             }
-            $action1 = str_replace('*', '', $action1);
+
+            $action1 = strtoupper(str_replace('*', '', $action1));
+            if ($action1 == 'X') {
+                continue;
+            }
+
             switch ($action1) {
                 case 'C':
                 case 'J':

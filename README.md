@@ -63,7 +63,7 @@ Not all characters are treated equal. Most efforts are spent on the frequently u
 
 In this project, remapping is preferred over amendment. This means that the font will try to reuse existing glyphs when possible, even when certain component is not exactly the same as that is used in the TW version. For instance, the followings components are different between variants, but may be ignored by this project:
 
-![Region level variants](region-level-variants.png?raw=true "Region-level variants ignored in this font")
+![Region level variants](doc/images/region-level-variants.png?raw=true "Region-level variants ignored in this font")
 
 The above subtle discrepancies are considered not significant enough for a whole new glyph. This is especially true for non-frequently used characters, when the option is either to leave them as-is or remap them to those closer to the desired glyphs.
 

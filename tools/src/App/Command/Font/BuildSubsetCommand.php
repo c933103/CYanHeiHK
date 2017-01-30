@@ -156,7 +156,7 @@ class BuildSubsetCommand extends ContainerAwareCommand
 
         $webfontDemoContent = file_get_contents($this->getAppDataDir() . '/html/webfont_demo.html');
         $webfontDemoContent = str_replace('%content%', $str, $webfontDemoContent);
-        file_put_contents($buildDir . '/webfont_demo.html', $webfontDemoContent);
+        file_put_contents($buildDir . '/webfont_specimen.html', $webfontDemoContent);
 
         return [
             'all' => $targetFile . '_all',

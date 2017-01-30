@@ -15,7 +15,7 @@ class PackageCommand extends ContainerAwareCommand
         $this
             ->setName('release:package')
             ->setDescription('Package a build for release')
-            ->addArgument('filename_prefix', InputArgument::REQUIRED, 'The filename prefix');
+            ->addArgument('filename_prefix', InputArgument::OPTIONAL, 'The filename prefix');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -23,14 +23,19 @@ class PackageCommand extends ContainerAwareCommand
         $io = new SymfonyStyle($input, $output);
         $io->title('Package a build for release');
 
-        $prefix = $input->getArgument('filename_prefix');
         $projectDir = realpath(__DIR__ . '/../../../../../');
+        $prefix = $input->getArgument('filename_prefix');
+        if (!$prefix) {
+            // use default
+            $prefix = 'v' . file_get_contents($projectDir . '/VERSION');
+        }
+
         $buildDir = $this->getParameter('build_dir');
         $sevenZipBin = $this->getParameter('7zip_bin');
 
         $io = new SymfonyStyle($input, $output);
 
-        $includeProjectFiles = ['CHANGELOG.md', 'README.md', 'LICENSE.txt'];
+        $includeProjectFiles = ['CHANGELOG.md', 'README.md', 'LICENSE.txt', 'VERSION'];
         $buildDirFileSets = [
             'Normal version' => [
                 'filename' => 'CYanHeiHK_%prefix%.7z',
@@ -48,7 +53,7 @@ class PackageCommand extends ContainerAwareCommand
                 'filename' => 'CYanHeiHK_%prefix%_subset.7z',
                 'files' => function () {
 
-                    $files = ['webfont_demo.html'];
+                    $files = ['webfont_specimen.html'];
 
                     foreach (['Bold', 'Light', 'Regular'] as $weight) {
 

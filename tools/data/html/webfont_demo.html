@@ -83,7 +83,6 @@
             left: 12px;
             top: 8px;
             max-width: 300px;
-            border:1px solid #aaa;
             padding: 8px;
         }
 
@@ -99,9 +98,17 @@
 <body>
 <div class="container">
     <div id="weight-selector">
-        <a href="#" class="set-weight" data-weight="light">Light</a>
-        <a href="#" class="set-weight" data-weight="normal">Normal</a>
-        <a href="#" class="set-weight" data-weight="bold">Bold</a>
+	<div class="btn-group-vertical" role="group" aria-label="...">
+	  <div class="btn-group" role="group">
+		<button type="button" class="set-weight btn btn-default" data-weight="light">Light</button>
+	  </div>
+	  <div class="btn-group" role="group">
+		<button type="button" class="set-weight btn btn-default" data-weight="normal">Normal</button>
+	  </div>
+	  <div class="btn-group" role="group">
+		<button type="button" class="set-weight btn btn-default" data-weight="bold">Bold</button>
+	  </div>
+	</div>
     </div>
     <div class="row">
         <div class="col">

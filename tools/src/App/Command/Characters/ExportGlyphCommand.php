@@ -75,6 +75,16 @@ class ExportGlyphCommand extends ContainerAwareCommand
                 $pfaFile);
 
             $this->runExternalCommand($io, $cmd);
+
+            $pdfFile = $filename . '_' . $weight . '.pdf';
+            $io->text(' - Producing PDF file');
+            $cmd = sprintf('%s/tx -pdf -g %s %s %s',
+                $afdkoBinDir,
+                implode(',', $cids),
+                $shsPsFile,
+                $pdfFile);
+
+            $this->runExternalCommand($io, $cmd);
         }
     }
 }

@@ -90,7 +90,6 @@ class InitSubsetCommand extends ContainerAwareCommand
                 || $row['iicore_tw']
                 || $row['iicore_jp']
                 || $row['iicore_mo']
-                || $row['new_cid']
             ) {
                 $subsetCategory = Database::SUBSET_CATEGORY_CJK;
             } else {

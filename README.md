@@ -118,7 +118,7 @@ The zip file contains the installable fonts, the license file, and a *changes.ht
 
 ### Subsetted fonts
 
-`CYanHeiHK_{version}_subset.7z` is a special build that contains a subsetted version of CYanHeiHK (~8,000 codepoints), with most OpenType features removed. The package contains fonts in WOFF and WOFF2 formats which can be used for the web. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight. In addition, subsetted .ttf files are also available which can be used for e.g. embedding in mobile apps.
+`CYanHeiHK_{version}_subset.7z` is a special build that contains a subsetted version of CYanHeiHK (~8,010 codepoints), with most OpenType features removed. The package contains fonts in WOFF and WOFF2 formats which can be used for the web. Most modern browsers should support either one or both. Also, *hinted* and *unhinted* version are provided for each format and each weight. In addition, subsetted .ttf files are also available which can be used for e.g. embedding in mobile apps.
 
 Detail of subset coverage is as below: 
 

@@ -1,9 +1,9 @@
 v1.010
 ==========
 - Fixed inconsistent 勻 component in 均. 
-- Workset 9: 141 remapped glyphs.
-- Workset 10: 108 remapped and 8 modified glyphs.
-- Modified subset inclusion logic. Previously, all modified (incl. remapped) characters will be included as the original scope of work is to only modify characters that are not rarely used. But now most of the characters in the supported charset (Big5+HKSCS) have been reviewed, it is no longer appropriate to include all modified characters by default.
+- Workset 9: 140 remapped glyphs.
+- Workset 10: 110 remapped and 8 modified glyphs.
+- Modified subset inclusion logic. Previously, all modified or remapped characters will be included in the subset, as the original scope of work is to only modify characters that are not rarely used. Now most of the characters in Big5 and HKSCS have been reviewed, so it is no longer appropriate to include all modified/remapped characters by default.
 
 v1.009
 ==========

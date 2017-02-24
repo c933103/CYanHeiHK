@@ -1,7 +1,7 @@
 CYanHeiHK (昭源甄黑體)
 ====================
 
-[Click here for Chinese version 中文版請按此](README.zh.md)  
+**[Click here for Chinese version 中文版請按此](README.zh.md)**  
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ CYanHeiHK is an OpenType font based on Source Han Sans (SHS) from Adobe and Goog
  * This is because developing a font product fulfilling the standard is voluntary, but not enforced.
  * Font vendors are free to decide whether to adopt the standard forms in their typeface products.
  * For some characters, people may actually be more familiar to the non-standard glyphs that are widely adopted in printed materials. They are mostly shapes used in early desktop publishings inherited from movable types.
- * A font that complies to Hong Kong's glyph stanard will be fulfilled by Source Han Sans in the future.
+ * A font that complies to Hong Kong's glyph standard will be fulfilled by Source Han Sans in the future.
 
 ### Goal of CYanHeiHK
 
@@ -109,7 +109,7 @@ Visit the [releases](https://github.com/tamcy/CYanHeiHK/releases) page to downlo
 
 ### Desktop fonts
 
-Two variants of the font pacakge are available for desktop use. Note that the font names are exactly the same, so you cannot install both.
+Two variants of the font package are available for desktop use. Note that the font names are exactly the same, so you cannot install both.
   
 * `CYanHeiHK_{version}.7z` is the “normal version” of the OpenType (.OTF) font files. You're probably looking for this.
 * `CYanHeiHK_{version}_adjusted_fontbbox.7z` is the “adjusted Font BBox version”, provided to work around some edge cases caused by the features inherited from Source Han Sans. [Click here for more information](doc/FONTBBOX-ADJUSTED-VERSION.md). Only use it when you understand what it does.
@@ -127,7 +127,7 @@ For Chinese glyphs,
    * some additional characters (mostly HKSCS characters like 㗅, 喆) are manually selected to include in the web font.  
 
 For non-Chinese character glyphs,
-   * ASCII, punctuation marks, full-width characters, Hiragana and Katakana symbols are included, except for the "no-latin" vairant.
+   * ASCII, punctuation marks, full-width characters, Hiragana and Katakana symbols are included, except for the "no-latin" variant.
 
 ## Important notes
 

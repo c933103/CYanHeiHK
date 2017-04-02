@@ -1,3 +1,7 @@
+v1.011
+==========
+- Workset 11: 7 remapped glyphs.
+
 v1.010
 ==========
 - Fixed inconsistent 勻 component in 均. 

@@ -13,6 +13,11 @@ return [
     'fontforge_bin' => 'C:\\fonts\\fontforge\\run_fontforge.exe',
     // Path to 7-zip, only needed for release:package command
     '7zip_bin' => 'C:\\Program Files\\7-Zip\\7z.exe',
+    // Path to otfcc (https://github.com/caryll/otfcc). Required to build TTF fonts.
+    'otfccdump_bin' => 'C:\\otfcc\\otfccdump.exe',
+    'otfccbuild_bin' => 'C:\\otfcc\\otfccbuild.exe',
+    // Path to otfcc_c2q (https://github.com/caryll/otfcc-cubic2quad). Required to build TTF fonts.
+    'otfccc2q_bin' => 'otfcc-c2q',
 
     // DON'T CHANGE THE LINES BELOW UNLESS YOU KNOW WHAT YOU ARE DOING.
     'version' => file_get_contents(__DIR__ . '/../../VERSION'),

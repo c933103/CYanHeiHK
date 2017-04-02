@@ -29,6 +29,7 @@ $c->addContainerAwareCommands([
     'App\\Command\\Font\\BuildCmapCommand',
     'App\\Command\\Font\\BuildMergedPsCommand',
     'App\\Command\\Font\\BuildOtfCommand',
+    'App\\Command\\Font\\BuildTtfCommand',
     'App\\Command\\Font\\GenerateModifiedGlyphPDFCommand',
     'App\\Command\\Font\\GenerateChangedGlyphHtmlCommand',
     'App\\Command\\FontForge\\GenerateFontCommand',

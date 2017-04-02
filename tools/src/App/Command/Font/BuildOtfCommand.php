@@ -37,7 +37,7 @@ class BuildOtfCommand extends ContainerAwareCommand
         foreach ($this->getActionableWeights($input->getOption('weight')) as $weight) {
             $this->prepareFiles($weight);
 
-            $this->io->section('Building font for ' . $weight . ' weight');
+            $this->io->section('Building OTF font for ' . $weight . ' weight');
 
             // Variant 1: Normal flavor
             $config = new BuildConfig();
